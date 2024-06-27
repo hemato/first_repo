@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\OpportunitiesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,5 @@ Route::get('/', function () {
 Route::get('/items', [ItemController::class, 'index']);
 Route::post('/items', [ItemController::class, 'store']);
 Route::post('/fetch-from-api', [ItemController::class, 'fetchFromApi']);
+
+Route::get('/opportunities', [OpportunitiesController::class, 'index'])->name('opportunities.index');
