@@ -16,7 +16,6 @@ class FetchAlbionData extends Command
 
     public function handle()
     {
-
         // Tüm API linklerini al
         $apiLinks = ApiLink::all();
 
@@ -24,13 +23,33 @@ class FetchAlbionData extends Command
             // API'den veri çek
             $response = Http::get($apiLink->url);
 
-                if ($response->successful()) {
-                    $data = $response->json();
+            if ($response->successful()) {
+                $data = $response->json();
 
-                    if (is_array($data) && !empty($data)) {
-                        foreach ($data as $itemData) {
-                            $city = City::firstOrCreate(['name' => $itemData['city']], ['isblackzone' => false]);
+                if (is_array($data) && !empty($data)) {
+                    foreach ($data as $itemData) {
+                        $city = City::firstOrCreate(['name' => $itemData['city']], ['isblackzone' => false]);
 
+                        $existingItem = Item::where('item_id', $itemData['item_id'])
+                            ->where('city_id', $city->id)
+                            ->where('quality', $itemData['quality'])
+                            ->first();
+
+                        if ($existingItem) {
+                            $existingItem->update([
+                                'item_name' => $itemData['item_id'],
+                                'quantity' => $itemData['quantity'] ?? 1,
+                                'sell_price_min' => $itemData['sell_price_min'] ?? 0,
+                                'sell_price_min_date' => $this->validateDate($itemData['sell_price_min_date'] ?? now()),
+                                'sell_price_max' => $itemData['sell_price_max'] ?? 0,
+                                'sell_price_max_date' => $this->validateDate($itemData['sell_price_max_date'] ?? now()),
+                                'buy_price_min' => $itemData['buy_price_min'] ?? 0,
+                                'buy_price_min_date' => $this->validateDate($itemData['buy_price_min_date'] ?? now()),
+                                'buy_price_max' => $itemData['buy_price_max'] ?? 0,
+                                'buy_price_max_date' => $this->validateDate($itemData['buy_price_max_date'] ?? now()),
+                                'description' => 'Fetched from API',
+                            ]);
+                        } else {
                             Item::create([
                                 'item_id' => $itemData['item_id'],
                                 'item_name' => $itemData['item_id'],  // item_name eksikse item_id'yi kullan
@@ -50,6 +69,7 @@ class FetchAlbionData extends Command
                         }
                     }
                 }
+            }
         }
 
         $this->info('Data fetched successfully from Albion Online API.');
