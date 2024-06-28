@@ -71,8 +71,8 @@ class MarketController extends Controller
                 'mp1.city_id as cheapest_city_id',
                 'mp1.quality_id',
                 'qualities.name as quality_name',
-                'mp1.buy_price_min',
-                'mp1.buy_price_min_date as buy_price_min_date',
+                'mp1.buy_price_max',
+                'mp1.buy_price_max_date as buy_price_max_date',
                 'mp2.city_id as expensive_city_id',
                 'mp2.sell_price_max',
                 'mp2.sell_price_max_date as sell_price_max_date'
@@ -82,12 +82,13 @@ class MarketController extends Controller
             ->join('market_prices as mp2', function ($join) {
                 $join->on('mp1.item_id', '=', 'mp2.item_id') // mp1 ve mp2 tabloları item_id alanında eşleşme yapar
                 ->on('mp1.quality_id', '=', 'mp2.quality_id') // mp1 ve mp2 tabloları quality_id alanında eşleşme yapar
-                ->whereRaw('mp2.sell_price_max - mp1.buy_price_min > 10000') // sell_price_max ile buy_price_min arasındaki fark 10000'den büyük olmalı
+                ->whereRaw('mp2.sell_price_max - mp1.buy_price_max > 10000') // sell_price_max ile buy_price_max arasındaki fark 10000'den büyük olmalı
                 ->whereRaw('mp1.city_id != mp2.city_id'); // mp1 ve mp2 tablolarının city_id alanları farklı olmalı
             })
-            ->where('mp1.buy_price_min', '>', 0) // mp1 tablosundaki buy_price_min değeri 0'dan büyük olmalı
+            ->where('mp1.buy_price_max', '>', 0) // mp1 tablosundaki buy_price_max değeri 0'dan büyük olmalı
             ->where('cities.id', '<>', 3) // en ucuz şehirin id'si 3 olmamalı
-            //->whereRaw('mp1.buy_price_min = (SELECT MIN(buy_price_min) FROM market_prices WHERE item_id = mp1.item_id AND quality_id = mp1.quality_id)') // mp1 tablosundaki en düşük buy_price_min değerini alır
+            ->where('mp1.quality_id', '<>', 5) // quality masterpiece olmamalı.
+            //->whereRaw('mp1.buy_price_max = (SELECT MIN(buy_price_max) FROM market_prices WHERE item_id = mp1.item_id AND quality_id = mp1.quality_id)') // mp1 tablosundaki en düşük buy_price_max değerini alır
             ->get(); // Sonucu getirir
 
         // En ucuz ve en pahalı şehirleri tespit etmek için
@@ -97,8 +98,8 @@ class MarketController extends Controller
                 'item_id' => $price->item_id,
                 'cheapest_city' =>  City::find($price->cheapest_city_id)->name,
                 'cheapest_quality' => $price->quality_name,
-                'min_buy_price' => $price->buy_price_min,
-                'buy_price_min_date' => $price->buy_price_min_date,
+                'max_buy_price' => $price->buy_price_max,
+                'buy_price_max_date' => $price->buy_price_max_date,
                 'expensive_city' => City::find($price->expensive_city_id)->name,
                 'max_sell_price' => $price->sell_price_max,
                 'sell_price_max_date' => $price->sell_price_max_date,

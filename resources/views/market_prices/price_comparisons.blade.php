@@ -16,12 +16,12 @@
                     <th>Item ID</th>
                     <th>Quality</th>
                     <th>Cheapest City</th>
-                    <th>Min Buy Price</th>
-                    <th>Buy Last Update (minutes ago)</th>
+                    <th>Max Buy Price</th>
+                    <th>Buy Last Update</th>
                     <th>Most Expensive City</th>
                     <th>Max Sell Price</th>
                     <th>Profit</th>
-                    <th>Sell Last Update (minutes ago)</th>
+                    <th>Sell Last Update</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -30,11 +30,11 @@
                         <td>{{ $comparison['item_id'] }}</td>
                         <td>{{ $comparison['cheapest_quality'] }}</td>
                         <td>{{ $comparison['cheapest_city'] }}</td>
-                        <td>{{ $comparison['min_buy_price'] }}</td>
-                        <td>{{ now()->diffInMinutes($comparison['buy_price_min_date']) }}</td>
+                        <td>{{ number_format($comparison['max_buy_price'], 2) }} $</td>
+                        <td>{{ now()->diffInMinutes($comparison['buy_price_max_date']) }}</td>
                         <td>{{ $comparison['expensive_city'] }}</td>
-                        <td>{{ $comparison['max_sell_price'] }}</td>
-                        <td>{{ $comparison['max_sell_price'] - $comparison['min_buy_price'] }}</td>
+                        <td>{{ number_format($comparison['max_sell_price'], 2) }} $</td>
+                        <td>{{ number_format($comparison['max_sell_price'] - $comparison['max_buy_price'], 2) }} $</td>
                         <td>{{ now()->diffInMinutes($comparison['sell_price_max_date']) }}</td>
                     </tr>
                 @endforeach
