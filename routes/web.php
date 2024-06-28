@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ItemController;
+use App\Http\Controllers\MarketController;
 use App\Http\Controllers\OpportunitiesController;
 
 /*
@@ -18,8 +18,8 @@ use App\Http\Controllers\OpportunitiesController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/items', [ItemController::class, 'index']);
-Route::post('/items', [ItemController::class, 'store']);
-Route::post('/fetch-from-api', [ItemController::class, 'fetchFromApi']);
+Route::get('/prices', [MarketController::class, 'index']);
+Route::post('/prices', [MarketController::class, 'store']);
+Route::post('/fetch-from-api', [MarketController::class, 'fetchFromApi']);
 
 Route::get('/opportunities', [OpportunitiesController::class, 'index'])->name('opportunities.index');

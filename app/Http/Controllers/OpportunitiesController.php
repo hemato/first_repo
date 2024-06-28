@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Item;
+use App\Models\MarketPrices;
 use Illuminate\Http\Request;
 
 class OpportunitiesController extends Controller
 {
     public function index()
     {
-        $items = Item::where('city_id', 3)->get();
-        return view('opportunities.index', compact('items'));
+        $marketPrices = MarketPrices::where('city_id', 3)->get();
+        return view('opportunities.index', compact('marketPrices'));
     }
 }
