@@ -64,51 +64,45 @@ class MarketController extends Controller
 
     public function showItemPriceComparisons()
     {
-        // En düşük buy_price_min ve en yüksek sell_price_max değerlerini ve tarihlerle birlikte bulmak için
-        $minPrices = DB::table('market_prices as mp')
+        // Tüm market_prices kayıtlarını alıp farkı 10.000 ve büyük olanları bulmak için
+        $allPrices = DB::table('market_prices as mp1')
             ->select(
-                'mp.item_id',
-                'mp.city_id',
-                'mp.quality_id',
-                'cities.name as city_name',
+                'mp1.item_id',
+                'mp1.city_id as cheapest_city_id',
+                'mp1.quality_id',
+                'cities.name as cheapest_city',
                 'qualities.name as quality_name',
-                'mp.buy_price_min',
-                'mp.buy_price_min_date as buy_price_min_date'
+                'mp1.buy_price_min',
+                'mp1.buy_price_min_date as buy_price_min_date',
+                'mp2.city_id as most_expensive_city_id',
+                'mp2.sell_price_max',
+                'mp2.sell_price_max_date as sell_price_max_date'
             )
-            ->join('cities', 'mp.city_id', '=', 'cities.id')
-            ->join('qualities', 'mp.quality_id', '=', 'qualities.id')
-            ->whereRaw('mp.buy_price_min = (SELECT MIN(buy_price_min) FROM market_prices WHERE item_id = mp.item_id AND quality_id = mp.quality_id)')
-            ->get();
-
-        $maxPrices = DB::table('market_prices as mp')
-            ->select(
-                'mp.item_id',
-                'mp.city_id',
-                'mp.quality_id',
-                'cities.name as city_name',
-                'qualities.name as quality_name',
-                'mp.sell_price_max',
-                'mp.sell_price_max_date as sell_price_max_date'
-            )
-            ->join('cities', 'mp.city_id', '=', 'cities.id')
-            ->join('qualities', 'mp.quality_id', '=', 'qualities.id')
-            ->whereRaw('mp.sell_price_max = (SELECT MAX(sell_price_max) FROM market_prices WHERE item_id = mp.item_id AND quality_id = mp.quality_id)')
-            ->get();
+            ->join('cities', 'mp1.city_id', '=', 'cities.id') // cities tablosuyla mp1.city_id alanında eşleşme yapılır
+            ->join('qualities', 'mp1.quality_id', '=', 'qualities.id') // qualities tablosuyla mp1.quality_id alanında eşleşme yapılır
+            ->join('market_prices as mp2', function ($join) {
+                $join->on('mp1.item_id', '=', 'mp2.item_id') // mp1 ve mp2 tabloları item_id alanında eşleşme yapar
+                ->on('mp1.quality_id', '=', 'mp2.quality_id') // mp1 ve mp2 tabloları quality_id alanında eşleşme yapar
+                ->whereRaw('mp2.sell_price_max - mp1.buy_price_min > 10000') // sell_price_max ile buy_price_min arasındaki fark 10000'den büyük olmalı
+                ->whereRaw('mp1.city_id != mp2.city_id'); // mp1 ve mp2 tablolarının city_id alanları farklı olmalı
+            })
+            ->where('mp1.buy_price_min', '>', 0) // mp1 tablosundaki buy_price_min değeri 0'dan büyük olmalı
+            ->where('cities.id', '<>', 3) // en ucuz şehirin id'si 3 olmamalı
+            //->whereRaw('mp1.buy_price_min = (SELECT MIN(buy_price_min) FROM market_prices WHERE item_id = mp1.item_id AND quality_id = mp1.quality_id)') // mp1 tablosundaki en düşük buy_price_min değerini alır
+            ->get(); // Sonucu getirir
 
         // En ucuz ve en pahalı şehirleri tespit etmek için
         $priceComparisons = [];
-        foreach ($minPrices as $minPrice) {
-            $maxPrice = $maxPrices->where('item_id', $minPrice->item_id)->where('quality_id', $minPrice->quality_id)->sortByDesc('sell_price_max')->first();
+        foreach ($allPrices as $price) {
             $priceComparisons[] = [
-                'item_id' => $minPrice->item_id,
-                'cheapest_city' => $minPrice->city_name,
-                'cheapest_quality' => $minPrice->quality_name,
-                'min_buy_price' => $minPrice->buy_price_min,
-                'buy_price_min_date' => $minPrice->buy_price_min_date,
-                'most_expensive_city' => $maxPrice->city_name ?? null,
-                'most_expensive_quality' => $maxPrice->quality_name ?? null,
-                'max_sell_price' => $maxPrice->sell_price_max ?? null,
-                'sell_price_max_date' => $maxPrice->sell_price_max_date ?? null,
+                'item_id' => $price->item_id,
+                'cheapest_city' => $price->cheapest_city,
+                'cheapest_quality' => $price->quality_name,
+                'min_buy_price' => $price->buy_price_min,
+                'buy_price_min_date' => $price->buy_price_min_date,
+                'most_expensive_city' => City::find($price->most_expensive_city_id)->name,
+                'max_sell_price' => $price->sell_price_max,
+                'sell_price_max_date' => $price->sell_price_max_date,
             ];
         }
 
