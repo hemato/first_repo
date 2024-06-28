@@ -22,6 +22,6 @@ Route::get('/prices', [MarketController::class, 'index'])->name('prices');
 Route::post('/prices', [MarketController::class, 'store']);
 Route::post('/fetch-from-api', [MarketController::class, 'fetchFromApi']);
 
-Route::get('/opportunities', [OpportunitiesController::class, 'index'])->name('opportunities.index');
+Route::get('/opportunities', [OpportunitiesController::class, 'index'])->name('opportunities');
 
 Route::get('/price-comparisons', [MarketController::class, 'showItemPriceComparisons'])->name('price-comparisons');

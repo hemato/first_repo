@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Opportunities</title>
+    <title>Black Market Prices</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -10,43 +10,28 @@
             display: flex;
             justify-content: center;
         }
-        .menu-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 250px;
-            background-color: #f8f9fa;
-            padding-top: 20px;
-        }
-        .menu-item {
-            cursor: pointer;
-            padding: 10px 20px;
-            border-bottom: 1px solid #ccc;
-        }
-        .menu-item:hover {
-            background-color: #e9ecef;
-        }
-        .content-container {
-            margin-left: 250px; /* Adjust based on menu width */
-            padding: 20px;
-        }
     </style>
 </head>
 <body>
-<div class="menu-container">
-    <div class="menu-item" onclick="openItemIndex()">
-        Market Prices
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{{ url('/') }}">Home</a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('prices') }}">Prices</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('opportunities') }}">Black Market</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('price-comparisons') }}">Price Comparisons</a>
+            </li>
+        </ul>
     </div>
-    <div class="menu-item" onclick="openOpportunitiesIndex()">
-        Opportunities Index
-    </div>
-    <!-- Add more menu items as needed -->
-</div>
-
+</nav>
 <div class="content-container">
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Opportunities</h1>
+        <h1 class="text-center mb-4">Black Market Prices</h1>
         <div class="table-container">
             <table id="priceTable" class="table table-bordered table-striped table-sm">
                 <thead>
@@ -118,12 +103,6 @@
             e.stopPropagation();
         });
     });
-    function openItemIndex() {
-        window.location.href = "http://127.0.0.1:8000/prices"; // Redirect to the item index page
-    }
-    function openOpportunitiesIndex() {
-        window.location.href = "http://127.0.0.1:8000/opportunities"; // Redirect to the item index page
-    }
 </script>
 </body>
 </html>

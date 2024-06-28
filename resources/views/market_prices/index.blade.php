@@ -21,6 +21,9 @@
                 <a class="nav-link" href="{{ route('prices') }}">Prices</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="{{ route('opportunities') }}">Black Market</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{{ route('price-comparisons') }}">Price Comparisons</a>
             </li>
         </ul>
