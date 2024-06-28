@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Items</title>
+    <title>Opportunities</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -46,7 +46,7 @@
 
 <div class="content-container">
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Items</h1>
+        <h1 class="text-center mb-4">Opportunities</h1>
         <div class="table-container">
             <table id="itemTable" class="table table-bordered table-striped table-sm">
                 <thead>

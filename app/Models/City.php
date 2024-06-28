@@ -9,5 +9,5 @@ class City extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'isblackzone'];
+    protected $fillable = ['name', 'is_blackzone'];
 }

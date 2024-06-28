@@ -11,7 +11,7 @@ class CreateCitiesTable extends Migration
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->boolean('isblackzone')->default(false);
+            $table->boolean('is_blackzone')->default(false);
             $table->timestamps();
         });
     }

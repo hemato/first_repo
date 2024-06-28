@@ -76,7 +76,7 @@ class ItemController extends Controller
 
             if (is_array($data) && !empty($data)) {
                 foreach ($data as $itemData) {
-                    $city = City::firstOrCreate(['name' => $itemData['city']], ['isblackzone' => false]);
+                    $city = City::firstOrCreate(['name' => $itemData['city']], ['is_blackzone' => false]);
 
                     $existingItem = Item::where('item_id', $itemData['item_id'])
                         ->where('city_id', $city->id)
