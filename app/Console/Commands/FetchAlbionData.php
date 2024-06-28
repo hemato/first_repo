@@ -30,13 +30,13 @@ class FetchAlbionData extends Command
                     foreach ($data as $priceData) {
                         $city = City::firstOrCreate(['name' => $priceData['city']], ['is_blackzone' => false]);
 
-                        $existingItem = MarketPrices::where('item_id', $priceData['item_id'])
+                        $existingPrice = MarketPrices::where('item_id', $priceData['item_id'])
                             ->where('city_id', $city->id)
                             ->where('quality', $priceData['quality'])
                             ->first();
 
-                        if ($existingItem) {
-                            $existingItem->update([
+                        if ($existingPrice) {
+                            $existingPrice->update([
                                 'item_name' => $priceData['item_id'],
                                 'quantity' => $priceData['quantity'] ?? 1,
                                 'sell_price_min' => $priceData['sell_price_min'] ?? 0,

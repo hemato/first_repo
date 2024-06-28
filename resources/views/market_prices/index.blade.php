@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Items</title>
+    <title>Market Prices</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -36,7 +36,7 @@
 <body>
 <div class="menu-container">
     <div class="menu-item" onclick="openItemIndex()">
-        Item Index
+        Market Prices
     </div>
     <div class="menu-item" onclick="openOpportunitiesIndex()">
         Opportunities Index
@@ -47,14 +47,14 @@
 <div class="content-container">
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="text-center mb-0">Items</h1>
+            <h1 class="text-center mb-0">Market Prices</h1>
             <div>
                 <button class="btn btn-primary mr-2" onclick="showAddItemForm()">Add Item</button>
                 <button class="btn btn-primary" onclick="showFetchFromApiForm()">Fetch Items from API</button>
             </div>
         </div>
         <div class="table-container">
-            <table id="itemTable" class="table table-bordered table-striped table-sm">
+            <table id="PriceTable" class="table table-bordered table-striped table-sm">
                 <thead>
                 <tr>
                     <th>ID</th>
@@ -72,20 +72,20 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($items as $item)
+                @foreach($marketPrices as $marketPrice)
                     <tr>
-                        <td>{{ $item->id }}</td>
-                        <td>{{ $item->item_id }}</td>
-                        <td>{{ $item->item_name }}</td>
-                        <td>{{ $item->city->name }}</td>
-                        <td>{{ $item->quality }}</td>
-                        <td>{{ $item->quantity }}</td>
-                        <td>{{ $item->sell_price_min }}</td>
-                        <td>{{ $item->sell_price_max }}</td>
-                        <td>{{ $item->buy_price_min }}</td>
-                        <td>{{ $item->buy_price_max }}</td>
-                        <td>{{ $item->description }}</td>
-                        <td>{{ now()->diffInMinutes($item->buy_price_min_date) }}</td>
+                        <td>{{ $marketPrice->id }}</td>
+                        <td>{{ $marketPrice->item_id }}</td>
+                        <td>{{ $marketPrice->item_name }}</td>
+                        <td>{{ $marketPrice->city->name }}</td>
+                        <td>{{ $marketPrice->quality }}</td>
+                        <td>{{ $marketPrice->quantity }}</td>
+                        <td>{{ $marketPrice->sell_price_min }}</td>
+                        <td>{{ $marketPrice->sell_price_max }}</td>
+                        <td>{{ $marketPrice->buy_price_min }}</td>
+                        <td>{{ $marketPrice->buy_price_max }}</td>
+                        <td>{{ $marketPrice->description }}</td>
+                        <td>{{ now()->diffInMinutes($marketPrice->buy_price_min_date) }}</td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -104,7 +104,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/items" method="POST">
+                <form action="/prices" method="POST">
                     @csrf
                     <!-- Form fields for adding items -->
                 </form>
@@ -143,7 +143,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function () {
-        var table = $('#itemTable').DataTable({
+        var table = $('#PriceTable').DataTable({
             "order": [[ 11, "asc" ]], // Default sorting by Last Update column
             "columnDefs": [
                 { "orderable": false, "targets": [0,1,2,5, 10] } // Disable sorting for ID and Description columns
@@ -152,8 +152,8 @@
         });
 
         // Add search inputs for each column
-        $('#itemTable thead tr').clone(true).appendTo('#itemTable thead');
-        $('#itemTable thead tr:eq(1) th').each(function (i) {
+        $('#PriceTable thead tr').clone(true).appendTo('#PriceTable thead');
+        $('#PriceTable thead tr:eq(1) th').each(function (i) {
             var title = $(this).text();
             $(this).html('<input type="text" placeholder="Search ' + title + '" />');
 
@@ -167,13 +167,13 @@
             });
         });
         // Prevent sorting on search input click
-        $('#itemTable thead input').on('click', function(e){
+        $('#PriceTable thead input').on('click', function(e){
             e.stopPropagation();
         });
     });
 
     function openItemIndex() {
-        window.location.href = "http://127.0.0.1:8000/items"; // Redirect to the item index page
+        window.location.href = "http://127.0.0.1:8000/prices"; // Redirect to the item index page
     }
 
     function openOpportunitiesIndex() {

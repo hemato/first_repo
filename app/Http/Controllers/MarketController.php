@@ -4,29 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Models\ApiLink;
 use Illuminate\Http\Request;
-use App\Models\Item;
+use App\Models\MarketPrices;
 use App\Models\City;
 use Illuminate\Support\Facades\Http;
 
-class ItemController extends Controller
+class MarketController extends Controller
 {
     public function index()
     {
-        $items = Item::with('city')->get();
-        return view('items.index', compact('items'));
+        $marketPrices = MarketPrices::with('city')->get();
+        return view('market_prices.index', compact('marketPrices'));
     }
 
     public function store(Request $request)
     {
         $city = City::find($request->city_id);
 
-        $existingItem = Item::where('item_id', $request->item_id)
+        $existingPrice = MarketPrices::where('item_id', $request->item_id)
             ->where('city_id', $city->id)
             ->where('quality', $request->quality)
             ->first();
 
-        if ($existingItem) {
-            $existingItem->update([
+        if ($existingPrice) {
+            $existingPrice->update([
                 'item_name' => $request->item_name,
                 'quantity' => $request->quantity,
                 'sell_price_min' => $request->sell_price_min,
@@ -40,7 +40,7 @@ class ItemController extends Controller
                 'description' => $request->description,
             ]);
         } else {
-            Item::create([
+            MarketPrices::create([
                 'item_id' => $request->item_id,
                 'item_name' => $request->item_name,
                 'city_id' => $city->id,
@@ -58,7 +58,7 @@ class ItemController extends Controller
             ]);
         }
 
-        return redirect('/items');
+        return redirect('/prices');
     }
 
     public function fetchFromApi(Request $request)
@@ -75,43 +75,43 @@ class ItemController extends Controller
             $data = $response->json();
 
             if (is_array($data) && !empty($data)) {
-                foreach ($data as $itemData) {
-                    $city = City::firstOrCreate(['name' => $itemData['city']], ['is_blackzone' => false]);
+                foreach ($data as $priceData) {
+                    $city = City::firstOrCreate(['name' => $priceData['city']], ['is_blackzone' => false]);
 
-                    $existingItem = Item::where('item_id', $itemData['item_id'])
+                    $existingPrice = MarketPrices::where('item_id', $priceData['item_id'])
                         ->where('city_id', $city->id)
-                        ->where('quality', $itemData['quality'])
+                        ->where('quality', $priceData['quality'])
                         ->first();
 
-                    if ($existingItem) {
-                        $existingItem->update([
-                            'item_name' => $itemData['item_id'],
-                            'quantity' => $itemData['quantity'] ?? 1,
-                            'sell_price_min' => $itemData['sell_price_min'] ?? 0,
-                            'sell_price_min_date' => $this->validateDate($itemData['sell_price_min_date'] ?? now()),
-                            'sell_price_max' => $itemData['sell_price_max'] ?? 0,
-                            'sell_price_max_date' => $this->validateDate($itemData['sell_price_max_date'] ?? now()),
-                            'buy_price_min' => $itemData['buy_price_min'] ?? 0,
-                            'buy_price_min_date' => $this->validateDate($itemData['buy_price_min_date'] ?? now()),
-                            'buy_price_max' => $itemData['buy_price_max'] ?? 0,
-                            'buy_price_max_date' => $this->validateDate($itemData['buy_price_max_date'] ?? now()),
+                    if ($existingPrice) {
+                        $existingPrice->update([
+                            'item_name' => $priceData['item_id'],
+                            'quantity' => $priceData['quantity'] ?? 1,
+                            'sell_price_min' => $priceData['sell_price_min'] ?? 0,
+                            'sell_price_min_date' => $this->validateDate($priceData['sell_price_min_date'] ?? now()),
+                            'sell_price_max' => $priceData['sell_price_max'] ?? 0,
+                            'sell_price_max_date' => $this->validateDate($priceData['sell_price_max_date'] ?? now()),
+                            'buy_price_min' => $priceData['buy_price_min'] ?? 0,
+                            'buy_price_min_date' => $this->validateDate($priceData['buy_price_min_date'] ?? now()),
+                            'buy_price_max' => $priceData['buy_price_max'] ?? 0,
+                            'buy_price_max_date' => $this->validateDate($priceData['buy_price_max_date'] ?? now()),
                             'description' => 'Fetched from API',
                         ]);
                     } else {
-                        Item::create([
-                            'item_id' => $itemData['item_id'],
-                            'item_name' => $itemData['item_id'],  // item_name eksikse item_id'yi kullan
+                        MarketPrices::create([
+                            'item_id' => $priceData['item_id'],
+                            'item_name' => $priceData['item_id'],  // item_name eksikse item_id'yi kullan
                             'city_id' => $city->id,
-                            'quality' => $itemData['quality'],
-                            'quantity' => $itemData['quantity'] ?? 1,
-                            'sell_price_min' => $itemData['sell_price_min'] ?? 0,
-                            'sell_price_min_date' => $this->validateDate($itemData['sell_price_min_date'] ?? now()),
-                            'sell_price_max' => $itemData['sell_price_max'] ?? 0,
-                            'sell_price_max_date' => $this->validateDate($itemData['sell_price_max_date'] ?? now()),
-                            'buy_price_min' => $itemData['buy_price_min'] ?? 0,
-                            'buy_price_min_date' => $this->validateDate($itemData['buy_price_min_date'] ?? now()),
-                            'buy_price_max' => $itemData['buy_price_max'] ?? 0,
-                            'buy_price_max_date' => $this->validateDate($itemData['buy_price_max_date'] ?? now()),
+                            'quality' => $priceData['quality'],
+                            'quantity' => $priceData['quantity'] ?? 1,
+                            'sell_price_min' => $priceData['sell_price_min'] ?? 0,
+                            'sell_price_min_date' => $this->validateDate($priceData['sell_price_min_date'] ?? now()),
+                            'sell_price_max' => $priceData['sell_price_max'] ?? 0,
+                            'sell_price_max_date' => $this->validateDate($priceData['sell_price_max_date'] ?? now()),
+                            'buy_price_min' => $priceData['buy_price_min'] ?? 0,
+                            'buy_price_min_date' => $this->validateDate($priceData['buy_price_min_date'] ?? now()),
+                            'buy_price_max' => $priceData['buy_price_max'] ?? 0,
+                            'buy_price_max_date' => $this->validateDate($priceData['buy_price_max_date'] ?? now()),
                             'description' => 'Fetched from API',
                         ]);
                     }
@@ -119,7 +119,7 @@ class ItemController extends Controller
             }
         }
 
-        return redirect('/items');
+        return redirect('/prices');
     }
 
     private function validateDate($date)
