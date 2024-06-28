@@ -10,39 +10,22 @@
             display: flex;
             justify-content: center;
         }
-        .menu-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 250px;
-            background-color: #f8f9fa;
-            padding-top: 20px;
-        }
-        .menu-item {
-            cursor: pointer;
-            padding: 10px 20px;
-            border-bottom: 1px solid #ccc;
-        }
-        .menu-item:hover {
-            background-color: #e9ecef;
-        }
-        .content-container {
-            margin-left: 250px; /* Adjust based on menu width */
-            padding: 20px;
-        }
     </style>
 </head>
 <body>
-<div class="menu-container">
-    <div class="menu-item" onclick="openItemIndex()">
-        Market Prices
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{{ url('/') }}">Home</a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('prices') }}">Prices</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('price-comparisons') }}">Price Comparisons</a>
+            </li>
+        </ul>
     </div>
-    <div class="menu-item" onclick="openOpportunitiesIndex()">
-        Opportunities Index
-    </div>
-    <!-- Add more menu items as needed -->
-</div>
+</nav>
 
 <div class="content-container">
     <div class="container mt-5">
@@ -63,9 +46,10 @@
                     <th>Quantity</th>
                     <th>Sell Price Min</th>
                     <th>Sell Price Max</th>
+                    <th>Sell Update (minutes ago)</th>
                     <th>Buy Price Min</th>
                     <th>Buy Price Max</th>
-                    <th>Last Update</th>
+                    <th>Buy Update (minutes ago)</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -77,9 +61,10 @@
                         <td>{{ $marketPrice->quantity }}</td>
                         <td>{{ $marketPrice->sell_price_min }}</td>
                         <td>{{ $marketPrice->sell_price_max }}</td>
+                        <td>{{ now()->diffInMinutes($marketPrice->sell_price_max_date) }}</td>
                         <td>{{ $marketPrice->buy_price_min }}</td>
                         <td>{{ $marketPrice->buy_price_max }}</td>
-                        <td>{{ now()->diffInMinutes($marketPrice->buy_price_min_date) }}</td>
+                        <td>{{ now()->diffInMinutes($marketPrice->buy_price_max_date) }}</td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -138,7 +123,7 @@
 <script>
     $(document).ready(function () {
         var table = $('#PriceTable').DataTable({
-            "order": [[ 8, "asc" ]], // Default sorting by Last Update column
+            "order": [[ 9, "asc" ]], // Default sorting by Last Update column
             "columnDefs": [
                 { "orderable": false, "targets": [4] } // Disable sorting for ID and Description columns
             ],
@@ -165,14 +150,6 @@
             e.stopPropagation();
         });
     });
-
-    function openItemIndex() {
-        window.location.href = "http://127.0.0.1:8000/prices"; // Redirect to the item index page
-    }
-
-    function openOpportunitiesIndex() {
-        window.location.href = "http://127.0.0.1:8000/opportunities"; // Redirect to the item index page
-    }
 
     function showAddItemForm() {
         $('#addItemModal').modal('show');

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\MarketPrices;
 use App\Models\City;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\DB;
 
 class MarketController extends Controller
 {
@@ -61,6 +62,58 @@ class MarketController extends Controller
         return redirect('/prices');
     }
 
+    public function showItemPriceComparisons()
+    {
+        // En düşük buy_price_min ve en yüksek sell_price_max değerlerini ve tarihlerle birlikte bulmak için
+        $minPrices = DB::table('market_prices as mp')
+            ->select(
+                'mp.item_id',
+                'mp.city_id',
+                'mp.quality_id',
+                'cities.name as city_name',
+                'qualities.name as quality_name',
+                'mp.buy_price_min',
+                'mp.buy_price_min_date as buy_price_min_date'
+            )
+            ->join('cities', 'mp.city_id', '=', 'cities.id')
+            ->join('qualities', 'mp.quality_id', '=', 'qualities.id')
+            ->whereRaw('mp.buy_price_min = (SELECT MIN(buy_price_min) FROM market_prices WHERE item_id = mp.item_id AND quality_id = mp.quality_id)')
+            ->get();
+
+        $maxPrices = DB::table('market_prices as mp')
+            ->select(
+                'mp.item_id',
+                'mp.city_id',
+                'mp.quality_id',
+                'cities.name as city_name',
+                'qualities.name as quality_name',
+                'mp.sell_price_max',
+                'mp.sell_price_max_date as sell_price_max_date'
+            )
+            ->join('cities', 'mp.city_id', '=', 'cities.id')
+            ->join('qualities', 'mp.quality_id', '=', 'qualities.id')
+            ->whereRaw('mp.sell_price_max = (SELECT MAX(sell_price_max) FROM market_prices WHERE item_id = mp.item_id AND quality_id = mp.quality_id)')
+            ->get();
+
+        // En ucuz ve en pahalı şehirleri tespit etmek için
+        $priceComparisons = [];
+        foreach ($minPrices as $minPrice) {
+            $maxPrice = $maxPrices->where('item_id', $minPrice->item_id)->where('quality_id', $minPrice->quality_id)->sortByDesc('sell_price_max')->first();
+            $priceComparisons[] = [
+                'item_id' => $minPrice->item_id,
+                'cheapest_city' => $minPrice->city_name,
+                'cheapest_quality' => $minPrice->quality_name,
+                'min_buy_price' => $minPrice->buy_price_min,
+                'buy_price_min_date' => $minPrice->buy_price_min_date,
+                'most_expensive_city' => $maxPrice->city_name ?? null,
+                'most_expensive_quality' => $maxPrice->quality_name ?? null,
+                'max_sell_price' => $maxPrice->sell_price_max ?? null,
+                'sell_price_max_date' => $maxPrice->sell_price_max_date ?? null,
+            ];
+        }
+
+        return view('market_prices.price_comparisons', compact('priceComparisons'));
+    }
     public function fetchFromApi(Request $request)
     {
         $url = $request->input('api_url');
