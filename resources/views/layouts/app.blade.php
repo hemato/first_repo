@@ -1,8 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Laravel Application</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>??</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <style>
+        .table-container {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -13,14 +21,17 @@
                 <a class="nav-link" href="{{ route('prices') }}">Prices</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="{{ route('opportunities') }}">Black Market</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{{ route('price-comparisons') }}">Price Comparisons</a>
             </li>
         </ul>
     </div>
 </nav>
 
-<div class="container">
     @yield('content')
-</div>
+
 </body>
+@yield('scripts')
 </html>

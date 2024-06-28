@@ -1,34 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Black Market Prices</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
-    <style>
-        .table-container {
-            display: flex;
-            justify-content: center;
-        }
-    </style>
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="{{ url('/') }}">Home</a>
-    <div class="collapse navbar-collapse">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('prices') }}">Prices</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('opportunities') }}">Black Market</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('price-comparisons') }}">Price Comparisons</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+@extends('layouts.app')
+@section('content')
 <div class="content-container">
     <div class="container mt-5">
         <h1 class="text-center mb-4">Black Market Prices</h1>
@@ -70,7 +41,9 @@
         </div>
     </div>
 </div>
+@endsection
 
+@section('scripts')
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script>
@@ -104,5 +77,4 @@
         });
     });
 </script>
-</body>
-</html>
+@endsection
