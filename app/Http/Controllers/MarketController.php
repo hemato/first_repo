@@ -70,11 +70,10 @@ class MarketController extends Controller
                 'mp1.item_id',
                 'mp1.city_id as cheapest_city_id',
                 'mp1.quality_id',
-                'cities.name as cheapest_city',
                 'qualities.name as quality_name',
                 'mp1.buy_price_min',
                 'mp1.buy_price_min_date as buy_price_min_date',
-                'mp2.city_id as most_expensive_city_id',
+                'mp2.city_id as expensive_city_id',
                 'mp2.sell_price_max',
                 'mp2.sell_price_max_date as sell_price_max_date'
             )
@@ -96,11 +95,11 @@ class MarketController extends Controller
         foreach ($allPrices as $price) {
             $priceComparisons[] = [
                 'item_id' => $price->item_id,
-                'cheapest_city' => $price->cheapest_city,
+                'cheapest_city' =>  City::find($price->cheapest_city_id)->name,
                 'cheapest_quality' => $price->quality_name,
                 'min_buy_price' => $price->buy_price_min,
                 'buy_price_min_date' => $price->buy_price_min_date,
-                'most_expensive_city' => City::find($price->most_expensive_city_id)->name,
+                'expensive_city' => City::find($price->expensive_city_id)->name,
                 'max_sell_price' => $price->sell_price_max,
                 'sell_price_max_date' => $price->sell_price_max_date,
             ];

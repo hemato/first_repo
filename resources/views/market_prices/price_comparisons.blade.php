@@ -32,7 +32,7 @@
                         <td>{{ $comparison['cheapest_city'] }}</td>
                         <td>{{ $comparison['min_buy_price'] }}</td>
                         <td>{{ now()->diffInMinutes($comparison['buy_price_min_date']) }}</td>
-                        <td>{{ $comparison['most_expensive_city'] }}</td>
+                        <td>{{ $comparison['expensive_city'] }}</td>
                         <td>{{ $comparison['max_sell_price'] }}</td>
                         <td>{{ $comparison['max_sell_price'] - $comparison['min_buy_price'] }}</td>
                         <td>{{ now()->diffInMinutes($comparison['sell_price_max_date']) }}</td>
