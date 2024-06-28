@@ -32,7 +32,7 @@ class FetchAlbionData extends Command
 
                         $existingPrice = MarketPrices::where('item_id', $priceData['item_id'])
                             ->where('city_id', $city->id)
-                            ->where('quality', $priceData['quality'])
+                            ->where('quality_id', $priceData['quality'])
                             ->first();
 
                         if ($existingPrice) {
@@ -54,7 +54,7 @@ class FetchAlbionData extends Command
                                 'item_id' => $priceData['item_id'],
                                 'item_name' => $priceData['item_id'],  // item_name eksikse item_id'yi kullan
                                 'city_id' => $city->id,
-                                'quality' => $priceData['quality'],
+                                'quality_id' => $priceData['quality'],
                                 'quantity' => $priceData['quantity'] ?? 1,
                                 'sell_price_min' => $priceData['sell_price_min'] ?? 0,
                                 'sell_price_min_date' => $this->validateDate($priceData['sell_price_min_date'] ?? now()),

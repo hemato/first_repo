@@ -53,7 +53,6 @@
                 <tr>
                     <th>ID</th>
                     <th>Item ID</th>
-                    <th>Item Name</th>
                     <th>City</th>
                     <th>Quality</th>
                     <th>Quantity</th>
@@ -70,9 +69,8 @@
                     <tr>
                         <td>{{ $marketPrice->id }}</td>
                         <td>{{ $marketPrice->item_id }}</td>
-                        <td>{{ $marketPrice->item_name }}</td>
                         <td>{{ $marketPrice->city->name }}</td>
-                        <td>{{ $marketPrice->quality }}</td>
+                        <td>{{ $marketPrice->quality->name }}</td>
                         <td>{{ $marketPrice->quantity }}</td>
                         <td>{{ $marketPrice->sell_price_min }}</td>
                         <td>{{ $marketPrice->sell_price_max }}</td>
@@ -93,7 +91,7 @@
 <script>
     $(document).ready(function () {
         var table = $('#priceTable').DataTable({
-            "order": [[ 11, "asc" ]], // Default sorting by Last Update column
+            "order": [[ 10, "asc" ]], // Default sorting by Last Update column
             "columnDefs": [
                 { "orderable": false, "targets": [0,1,2,5, 10] } // Disable sorting for ID and Description columns
             ],

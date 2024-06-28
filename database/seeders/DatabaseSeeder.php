@@ -4,19 +4,27 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
      */
-    public function run(): void
+    public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $now = Carbon::now()->toDateTimeString(); // Geçerli tarih ve saat bilgisini alıyoruz
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $qualities = [
+            ['id' => 1, 'name' => 'Normal', 'created_at' => $now, 'updated_at' => $now],
+            ['id' => 2, 'name' => 'Good', 'created_at' => $now, 'updated_at' => $now],
+            ['id' => 3, 'name' => 'Outstanding', 'created_at' => $now, 'updated_at' => $now],
+            ['id' => 4, 'name' => 'Excellent', 'created_at' => $now, 'updated_at' => $now],
+            ['id' => 5, 'name' => 'Masterpiece', 'created_at' => $now, 'updated_at' => $now],
+        ];
+
+        // Veritabanına ekleyelim
+        DB::table('qualities')->insert($qualities);
     }
 }

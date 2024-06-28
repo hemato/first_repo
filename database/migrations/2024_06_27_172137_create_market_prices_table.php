@@ -13,7 +13,7 @@ class CreateMarketPricesTable extends Migration
             $table->string('item_id');
             $table->string('item_name');
             $table->foreignId('city_id')->constrained()->onDelete('cascade');
-            $table->integer('quality');
+            $table->foreignId('quality_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
             $table->decimal('sell_price_min', 10, 2);
             $table->timestamp('sell_price_min_date');
