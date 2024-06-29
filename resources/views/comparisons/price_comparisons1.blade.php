@@ -3,7 +3,7 @@
 <div class="content-container">
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="text-center mb-0">Price Comparisons</h1>
+            <h1 class="text-center mb-0">Sell Max - Buy Max</h1>
             <div>
                 <button class="btn btn-primary mr-2" onclick="showAddItemForm()">Add Item</button>
                 <button class="btn btn-primary" onclick="showFetchFromApiForm()">Fetch Items from API</button>
@@ -16,16 +16,16 @@
                     <th>Item ID</th>
                     <th>Quality</th>
                     <th>Cheapest City</th>
-                    <th>Max Buy Price</th>
+                    <th>Max Sell Price</th>
                     <th>Buy Last Update</th>
                     <th>Most Expensive City</th>
-                    <th>Max Sell Price</th>
+                    <th>Max Buy Price</th>
                     <th>Profit</th>
                     <th>Sell Last Update</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($priceComparisons as $comparison)
+                @foreach($priceComparisons1 as $comparison)
                     <tr>
                         <td>{{ $comparison['item_id'] }}</td>
                         <td>{{ $comparison['cheapest_quality'] }}</td>

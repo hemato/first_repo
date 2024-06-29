@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarketController;
 use App\Http\Controllers\OpportunitiesController;
-
+use App\Http\Controllers\ComparisonsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,4 +24,6 @@ Route::post('/fetch-from-api', [MarketController::class, 'fetchFromApi']);
 
 Route::get('/opportunities', [OpportunitiesController::class, 'index'])->name('opportunities');
 
-Route::get('/price-comparisons', [MarketController::class, 'showItemPriceComparisons'])->name('price-comparisons');
+Route::get('/price-comparisons1', [ComparisonsController::class, 'showItemPriceComparisons1'])->name('price-comparisons1');
+Route::get('/price-comparisons2', [ComparisonsController::class, 'showItemPriceComparisons2'])->name('price-comparisons2');
+Route::get('/price-comparisons3', [ComparisonsController::class, 'showItemPriceComparisons3'])->name('price-comparisons3');
