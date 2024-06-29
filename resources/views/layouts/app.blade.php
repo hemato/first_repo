@@ -24,10 +24,10 @@
                 <a class="nav-link" href="{{ route('opportunities') }}">Black Market</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('price-comparisons1') }}">Sell Max - Buy Max</a>
+                <a class="nav-link" href="{{ route('price-comparisons1') }}">Sell Min - Buy Max</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('price-comparisons2') }}">Buy Max - Buy Max</a>
+                <a class="nav-link" href="{{ route('price-comparisons2') }}">Buy Max - Sell Min</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('price-comparisons3') }}">Buy Max - Buy Max</a>

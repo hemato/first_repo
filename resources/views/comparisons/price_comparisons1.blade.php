@@ -3,7 +3,7 @@
 <div class="content-container">
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="text-center mb-0">Sell Max - Buy Max</h1>
+            <h1 class="text-center mb-0">Sell Min - Buy Max</h1>
             <div>
                 <button class="btn btn-primary mr-2" onclick="showAddItemForm()">Add Item</button>
                 <button class="btn btn-primary" onclick="showFetchFromApiForm()">Fetch Items from API</button>
@@ -16,26 +16,26 @@
                     <th>Item ID</th>
                     <th>Quality</th>
                     <th>Cheapest City</th>
-                    <th>Max Sell Price</th>
-                    <th>Buy Last Update</th>
-                    <th>Most Expensive City</th>
-                    <th>Max Buy Price</th>
-                    <th>Profit</th>
+                    <th>Min Sell Price</th>
                     <th>Sell Last Update</th>
+                    <th>Expensive City</th>
+                    <th>Max Buy Price</th>
+                    <th>Buy Last Update</th>
+                    <th>Profit</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($priceComparisons1 as $comparison)
                     <tr>
                         <td>{{ $comparison['item_id'] }}</td>
-                        <td>{{ $comparison['cheapest_quality'] }}</td>
-                        <td>{{ $comparison['cheapest_city'] }}</td>
-                        <td>{{ number_format($comparison['max_buy_price'], 2) }} $</td>
-                        <td>{{ now()->diffInMinutes($comparison['buy_price_max_date']) }}</td>
-                        <td>{{ $comparison['expensive_city'] }}</td>
-                        <td>{{ number_format($comparison['max_sell_price'], 2) }} $</td>
-                        <td>{{ number_format($comparison['max_sell_price'] - $comparison['max_buy_price'], 2) }} $</td>
-                        <td>{{ now()->diffInMinutes($comparison['sell_price_max_date']) }}</td>
+                        <td>{{ $comparison['city1_quality'] }}</td>
+                        <td>{{ $comparison['city2'] }}</td>
+                        <td>{{ number_format($comparison['city2_sell_price_min'], 2) }} $</td>
+                        <td>{{ now()->diffInMinutes($comparison['city2_sell_price_min_date']) }}</td>
+                        <td>{{ $comparison['city1'] }}</td>
+                        <td>{{ number_format($comparison['city1_buy_price_max'], 2) }} $</td>
+                        <td>{{ now()->diffInMinutes($comparison['city1_buy_price_max_date']) }}</td>
+                        <td>{{ $comparison['profit'] }} $</td>
                     </tr>
                 @endforeach
                 </tbody>

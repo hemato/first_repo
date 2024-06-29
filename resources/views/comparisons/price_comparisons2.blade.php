@@ -3,7 +3,7 @@
     <div class="content-container">
         <div class="container mt-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="text-center mb-0">Buy Max - Buy Max</h1>
+                <h1 class="text-center mb-0">Buy Max - Sell Min</h1>
                 <div>
                     <button class="btn btn-primary mr-2" onclick="showAddItemForm()">Add Item</button>
                     <button class="btn btn-primary" onclick="showFetchFromApiForm()">Fetch Items from API</button>
@@ -18,10 +18,10 @@
                         <th>Cheapest City</th>
                         <th>Max Buy Price</th>
                         <th>Buy Last Update</th>
-                        <th>Most Expensive City</th>
-                        <th>Max Sell Price</th>
-                        <th>Profit</th>
+                        <th>Expensive City</th>
+                        <th>Min Sell Price</th>
                         <th>Sell Last Update</th>
+                        <th>Profit</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -33,9 +33,9 @@
                             <td>{{ number_format($comparison['city1_buy_price_max'], 2) }} $</td>
                             <td>{{ now()->diffInMinutes($comparison['city1_buy_price_max_date']) }}</td>
                             <td>{{ $comparison['city2'] }}</td>
-                            <td>{{ number_format($comparison['city2_buy_price_max'], 2) }} $</td>
+                            <td>{{ number_format($comparison['city2_sell_price_min'], 2) }} $</td>
+                            <td>{{ now()->diffInMinutes($comparison['city2_sell_price_min_date']) }}</td>
                             <td>{{ $comparison['profit'] }} $</td>
-                            <td>{{ now()->diffInMinutes($comparison['city2_buy_price_max_date']) }}</td>
                         </tr>
                     @endforeach
                     </tbody>
