@@ -8,12 +8,34 @@ use App\Models\MarketPrices;
 use App\Models\City;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+
 
 class MarketController extends Controller
 {
     public function index()
     {
+        // JSON dosyasını yükle
+        $jsonFile = File::get(resource_path('lang/items.json'));
+        $jsonData = json_decode($jsonFile);
+
+        // MarketPrices'ı yükle, city ilişkisini de dahil et
         $marketPrices = MarketPrices::with('city')->get();
+
+        // Her marketPrice için ilgili dil verilerini ekle
+        foreach ($marketPrices as $marketPrice) {
+            $uniqueName = $marketPrice->item_id;
+
+            // JSON dosyasındaki dil verilerini al
+            foreach ($jsonData as $item) {
+                if ($item->UniqueName === $uniqueName) {
+                    $marketPrice->itemName = $item->LocalizedNames->{'EN-US'};
+                    $marketPrice->itemDescription = $item->LocalizedDescriptions->{'EN-US'};
+                    break; // Eşleşme bulunduğunda döngüden çık
+                }
+            }
+        }
+
         return view('market_prices.index', compact('marketPrices'));
     }
 
@@ -139,6 +161,24 @@ class MarketController extends Controller
         } catch (\Exception $e) {
             return '2000-01-01 00:00:00';
         }
+    }
+
+    public function showItemDetails($item_id)
+    {
+        $itemDetails = DB::table('market_prices')
+            ->select(
+                'market_prices.*',
+                'cities.name as city_name',
+                'qualities.name as quality_name'
+            )
+            ->join('cities', 'market_prices.city_id', '=', 'cities.id')
+            ->join('qualities', 'market_prices.quality_id', '=', 'qualities.id')
+            ->where('market_prices.item_id', $item_id)
+            ->get();
+
+        $groupedDetails = $itemDetails->groupBy('city_name');
+
+        return view('market_prices.item_details', compact('groupedDetails', 'item_id'));
     }
 
 }

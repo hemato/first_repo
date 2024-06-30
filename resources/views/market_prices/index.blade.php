@@ -28,7 +28,11 @@
                 <tbody>
                 @foreach($marketPrices as $marketPrice)
                     <tr>
-                        <td>{{ $marketPrice->item_id }}</td>
+                        <td>
+                            <a target="_blank" href="{{ url('/item/' . $marketPrice->item_id) }}">
+                                {{ $marketPrice->itemName }}
+                            </a>
+                        </td>
                         <td>{{ $marketPrice->city->name }}</td>
                         <td>{{ $marketPrice->quality->name }}</td>
                         <td>{{ $marketPrice->quantity }}</td>
