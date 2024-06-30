@@ -4,10 +4,6 @@
         <div class="container mt-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1 class="text-center mb-0">Buy Max - Buy Max</h1>
-                <div>
-                    <button class="btn btn-primary mr-2" onclick="showAddItemForm()">Add Item</button>
-                    <button class="btn btn-primary" onclick="showFetchFromApiForm()">Fetch Items from API</button>
-                </div>
             </div>
             <div class="table-container">
                 <table id="DataTable" class="table table-bordered table-striped table-sm">
@@ -44,48 +40,6 @@
         </div>
     </div>
 
-    <div id="addItemModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addItemModalLabel">Add Item</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeAddItemForm()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="/prices" method="POST">
-                        @csrf
-                        <!-- Form fields for adding items -->
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for Fetch Items from API -->
-    <div id="fetchFromApiModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="fetchFromApiModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="fetchFromApiModalLabel">Fetch Items from API</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeFetchFromApiForm()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="/fetch-from-api" method="POST">
-                        @csrf
-                        <div class="form-group">
-                            <label for="api_url">API URL</label>
-                            <input type="text" class="form-control" id="api_url" name="api_url" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Fetch Items</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 @section('scripts')
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
@@ -123,20 +77,5 @@
             });
         });
 
-        function showAddItemForm() {
-            $('#addItemModal').modal('show');
-        }
-
-        function closeAddItemForm() {
-            $('#addItemModal').modal('hide');
-        }
-
-        function showFetchFromApiForm() {
-            $('#fetchFromApiModal').modal('show');
-        }
-
-        function closeFetchFromApiForm() {
-            $('#fetchFromApiModal').modal('hide');
-        }
     </script>
 @endsection

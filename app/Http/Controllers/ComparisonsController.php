@@ -31,7 +31,7 @@ class ComparisonsController extends Controller
             ->join('market_prices as mp2', function ($join) {
                 $join->on('mp1.item_id', '=', 'mp2.item_id') // mp1 ve mp2 tabloları item_id alanında eşleşme yapar
                 ->on('mp2.quality_id', '=', 'mp1.quality_id') // mp1 ve mp2 tabloları quality_id alanında eşleşme yapar
-                ->whereRaw('mp1.buy_price_max - mp2.sell_price_min > 1') // İki şehir arasındaki buy_price_max farkı 10000'den büyük olmalı
+                ->whereRaw('mp1.buy_price_max - mp2.sell_price_min > 10000') // İki şehir arasındaki buy_price_max farkı 10000'den büyük olmalı
                 ->whereRaw('mp1.city_id != mp2.city_id'); // mp1 ve mp2 tablolarının city_id alanları farklı olmalı
             })
             ->where('mp1.buy_price_max', '>', 0) // mp1 tablosundaki buy_price_max değeri 0'dan büyük olmalı
@@ -80,7 +80,7 @@ class ComparisonsController extends Controller
             ->join('market_prices as mp2', function ($join) {
                 $join->on('mp1.item_id', '=', 'mp2.item_id') // mp1 ve mp2 tabloları item_id alanında eşleşme yapar
                 ->on('mp2.quality_id', '=', 'mp1.quality_id') // mp1 ve mp2 tabloları quality_id alanında eşleşme yapar
-                ->whereRaw('mp2.sell_price_min - mp1.buy_price_max > 1') // İki şehir arasındaki buy_price_max farkı 10000'den büyük olmalı
+                ->whereRaw('mp2.sell_price_min - mp1.buy_price_max > 10000') // İki şehir arasındaki buy_price_max farkı 10000'den büyük olmalı
                 ->whereRaw('mp1.city_id != mp2.city_id'); // mp1 ve mp2 tablolarının city_id alanları farklı olmalı
             })
             ->where('mp1.buy_price_max', '>', 0) // mp1 tablosundaki buy_price_max değeri 0'dan büyük olmalı
