@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ApiLink;
+use App\Helpers\ItemHelper;
 use Illuminate\Http\Request;
 use App\Models\MarketPrices;
 use App\Models\City;
@@ -165,6 +166,14 @@ class MarketController extends Controller
 
     public function showItemDetails($item_id)
     {
+        $localizationNameVariable = getLocalizationNameVariable($item_id);
+
+        if (!$localizationNameVariable) {
+            return redirect()->back()->with('error', 'Item not found.');
+        }
+
+        $itemIds = getItemsWithSameLocalizationNameVariable($localizationNameVariable);
+
         $itemDetails = DB::table('market_prices')
             ->select(
                 'market_prices.*',
@@ -173,7 +182,7 @@ class MarketController extends Controller
             )
             ->join('cities', 'market_prices.city_id', '=', 'cities.id')
             ->join('qualities', 'market_prices.quality_id', '=', 'qualities.id')
-            ->where('market_prices.item_id', $item_id)
+            ->whereIn('market_prices.item_id', $itemIds)
             ->get();
 
         $groupedDetails = $itemDetails->groupBy('city_name');
