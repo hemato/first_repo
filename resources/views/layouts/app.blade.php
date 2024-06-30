@@ -32,6 +32,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('price-comparisons3') }}">Buy Max - Buy Max</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('price-comparisons4') }}">Sell Min - Sell Min</a>
+            </li>
         </ul>
     </div>
 </nav>

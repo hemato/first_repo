@@ -27,3 +27,4 @@ Route::get('/opportunities', [OpportunitiesController::class, 'index'])->name('o
 Route::get('/price-comparisons1', [ComparisonsController::class, 'showItemPriceComparisons1'])->name('price-comparisons1');
 Route::get('/price-comparisons2', [ComparisonsController::class, 'showItemPriceComparisons2'])->name('price-comparisons2');
 Route::get('/price-comparisons3', [ComparisonsController::class, 'showItemPriceComparisons3'])->name('price-comparisons3');
+Route::get('/price-comparisons4', [ComparisonsController::class, 'showItemPriceComparisons4'])->name('price-comparisons4');

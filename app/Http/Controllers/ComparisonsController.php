@@ -141,7 +141,7 @@ class ComparisonsController extends Controller
         // Şehirler arasındaki buy_price_max farklarını tespit etmek için
         $priceComparisons3 = [];
         foreach ($allPrices as $price) {
-            $profit = abs($price->city1_buy_price_max - $price->city2_buy_price_max); // Profit hesaplaması
+            $profit = abs($price->city2_buy_price_max - $price->city1_buy_price_max); // Profit hesaplaması
             $priceComparisons3[] = [
                 'item_id' => $price->item_id,
                 'city1' => City::find($price->city1_id)->name,
@@ -156,6 +156,55 @@ class ComparisonsController extends Controller
         }
 
         return view('comparisons.price_comparisons3', compact('priceComparisons3'));
+    }
+
+    public function showItemPriceComparisons4()
+    {
+        // Tüm market_prices kayıtlarını alıp farkı 10.000 ve büyük olan sell_price_min değerlerini bulmak için
+        $allPrices = DB::table('market_prices as mp1')
+            ->select(
+                'mp1.item_id',
+                'mp1.city_id as city1_id',
+                'mp1.quality_id',
+                'qualities.name as quality_name',
+                'mp1.sell_price_min as city1_sell_price_min',
+                'mp1.sell_price_min_date as city1_sell_price_min_date',
+                'mp2.city_id as city2_id',
+                'mp2.sell_price_min as city2_sell_price_min',
+                'mp2.sell_price_min_date as city2_sell_price_min_date'
+            )
+            ->join('cities as c1', 'mp1.city_id', '=', 'c1.id') // cities tablosuyla mp1.city_id alanında eşleşme yapılır
+            ->join('qualities', 'mp1.quality_id', '=', 'qualities.id') // qualities tablosuyla mp1.quality_id alanında eşleşme yapılır
+            ->join('market_prices as mp2', function ($join) {
+                $join->on('mp1.item_id', '=', 'mp2.item_id') // mp1 ve mp2 tabloları item_id alanında eşleşme yapar
+                ->on('mp2.quality_id', '=', 'mp1.quality_id') // mp1 ve mp2 tabloları quality_id alanında eşleşme yapar
+                ->whereRaw('mp2.sell_price_min - mp1.sell_price_min > 10000') // İki şehir arasındaki buy_price_max farkı 10000'den büyük olmalı
+                ->whereRaw('mp1.city_id != mp2.city_id'); // mp1 ve mp2 tablolarının city_id alanları farklı olmalı
+            })
+            ->where('mp1.sell_price_min', '>', 0) // mp1 tablosundaki buy_price_max değeri 0'dan büyük olmalı
+            ->where('mp2.sell_price_min', '>', 0) // mp2 tablosundaki sell_price_min değeri 0'dan büyük olmalı
+            ->where('mp1.city_id', '<>', 3) // ikinci(alım) şehrin id'si 3 olmamalı
+            ->where('mp1.quality_id', '<>', 5) // quality masterpiece olmamalı
+            ->get(); // Sonucu getirir
+
+        // Şehirler arasındaki sell_price_min farklarını tespit etmek için
+        $priceComparisons4 = [];
+        foreach ($allPrices as $price) {
+            $profit = abs($price->city2_sell_price_min - $price->city1_sell_price_min); // Profit hesaplaması
+            $priceComparisons4[] = [
+                'item_id' => $price->item_id,
+                'city1' => City::find($price->city1_id)->name,
+                'city1_quality' => $price->quality_name,
+                'city1_sell_price_min' => $price->city1_sell_price_min,
+                'city1_sell_price_min_date' => $price->city1_sell_price_min_date,
+                'city2' => City::find($price->city2_id)->name,
+                'city2_sell_price_min' => $price->city2_sell_price_min,
+                'city2_sell_price_min_date' => $price->city2_sell_price_min_date,
+                'profit' => $profit // Profit değeri eklendi
+            ];
+        }
+
+        return view('comparisons.price_comparisons4', compact('priceComparisons4'));
     }
 
 }
