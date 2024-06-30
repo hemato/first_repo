@@ -13,10 +13,10 @@
             <table id="PriceTable" class="table table-bordered table-striped table-sm">
                 <thead>
                 <tr>
-                    <th>Item ID</th>
-                    <th>City</th>
+                    <th>Item Name</th>
+                    <th>Enchant</th>
                     <th>Quality</th>
-                    <th>Quantity</th>
+                    <th>City</th>
                     <th>Sell Price Min</th>
                     <th>Sell Price Max</th>
                     <th>Sell Update (minutes ago)</th>
@@ -33,9 +33,16 @@
                                 {{ $marketPrice->itemName }}
                             </a>
                         </td>
-                        <td>{{ $marketPrice->city->name }}</td>
+                        <td>                            @php
+                                // Determine the suffix value based on item_id
+                                $suffix = 0; // Default value
+                                if (strpos($marketPrice->item_id, '@') !== false) {
+                                    $suffix = (int) substr($marketPrice->item_id, -1);
+                                }
+                            @endphp
+                            {{ $suffix }}</td>
                         <td>{{ $marketPrice->quality->name }}</td>
-                        <td>{{ $marketPrice->quantity }}</td>
+                        <td>{{ $marketPrice->city->name }}</td>
                         <td>{{ $marketPrice->sell_price_min }}</td>
                         <td>{{ $marketPrice->sell_price_max }}</td>
                         <td>{{ now()->diffInMinutes($marketPrice->sell_price_max_date) }}</td>
@@ -102,7 +109,7 @@
 <script>
     $(document).ready(function () {
         var table = $('#PriceTable').DataTable({
-            "order": [[ 9, "asc" ]], // Default sorting by Last Update column
+            "order": [[ 8, "asc" ]], // Default sorting by Last Update column
             "columnDefs": [
                 { "orderable": false, "targets": [4] } // Disable sorting for ID and Description columns
             ],
