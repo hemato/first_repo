@@ -30,3 +30,29 @@ function getItemsWithSameLocalizationNameVariable($localizationNameVariable)
 
     return $itemIds;
 }
+
+if (!function_exists('getItemDetails')) {
+    function getItemDetails($uniqueName)
+    {
+        static $itemsData = null;
+
+        if ($itemsData === null) {
+            $jsonFile = File::get(resource_path('lang/items.json'));
+            $itemsData = json_decode($jsonFile, true);
+        }
+
+        foreach ($itemsData as $item) {
+            if ($item['UniqueName'] === $uniqueName) {
+                return [
+                    'itemName' => $item['LocalizedNames']['EN-US'] ?? '',
+                    'itemDescription' => $item['LocalizedDescriptions']['EN-US'] ?? ''
+                ];
+            }
+        }
+
+        return [
+            'itemName' => '',
+            'itemDescription' => ''
+        ];
+    }
+}

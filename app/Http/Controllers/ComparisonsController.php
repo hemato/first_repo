@@ -8,7 +8,7 @@ use App\Models\MarketPrices;
 use App\Models\City;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\File;
 class ComparisonsController extends Controller
 {
     public function showItemPriceComparisons1()
@@ -43,9 +43,12 @@ class ComparisonsController extends Controller
         // Şehirler arasındaki buy_price_max farklarını tespit etmek için
         $priceComparisons1 = [];
         foreach ($allPrices as $price) {
+            $itemDetails = getItemDetails($price->item_id);
             $profit = abs($price->city1_buy_price_max - $price->city2_sell_price_min); // Profit hesaplaması
             $priceComparisons1[] = [
                 'item_id' => $price->item_id,
+                'item_name' => $itemDetails['itemName'],
+                'item_description' => $itemDetails['itemDescription'],
                 'city1' => City::find($price->city1_id)->name,
                 'city1_quality' => $price->quality_name,
                 'city1_buy_price_max' => $price->city1_buy_price_max,
@@ -92,9 +95,13 @@ class ComparisonsController extends Controller
         // Şehirler arasındaki buy_price_max farklarını tespit etmek için
         $priceComparisons2 = [];
         foreach ($allPrices as $price) {
+            $itemDetails = getItemDetails($price->item_id);
+
             $profit = abs($price->city2_sell_price_min - $price->city1_buy_price_max); // Profit hesaplaması
             $priceComparisons2[] = [
                 'item_id' => $price->item_id,
+                'item_name' => $itemDetails['itemName'],
+                'item_description' => $itemDetails['itemDescription'],
                 'city1' => City::find($price->city1_id)->name,
                 'city1_quality' => $price->quality_name,
                 'city1_buy_price_max' => $price->city1_buy_price_max,
@@ -108,6 +115,7 @@ class ComparisonsController extends Controller
 
         return view('comparisons.price_comparisons2', compact('priceComparisons2'));
     }
+
 
     public function showItemPriceComparisons3()
     {
@@ -141,9 +149,12 @@ class ComparisonsController extends Controller
         // Şehirler arasındaki buy_price_max farklarını tespit etmek için
         $priceComparisons3 = [];
         foreach ($allPrices as $price) {
+            $itemDetails = getItemDetails($price->item_id);
             $profit = abs($price->city2_buy_price_max - $price->city1_buy_price_max); // Profit hesaplaması
             $priceComparisons3[] = [
                 'item_id' => $price->item_id,
+                'item_name' => $itemDetails['itemName'],
+                'item_description' => $itemDetails['itemDescription'],
                 'city1' => City::find($price->city1_id)->name,
                 'city1_quality' => $price->quality_name,
                 'city1_buy_price_max' => $price->city1_buy_price_max,
@@ -190,9 +201,12 @@ class ComparisonsController extends Controller
         // Şehirler arasındaki sell_price_min farklarını tespit etmek için
         $priceComparisons4 = [];
         foreach ($allPrices as $price) {
+            $itemDetails = getItemDetails($price->item_id);
             $profit = abs($price->city2_sell_price_min - $price->city1_sell_price_min); // Profit hesaplaması
             $priceComparisons4[] = [
                 'item_id' => $price->item_id,
+                'item_name' => $itemDetails['itemName'],
+                'item_description' => $itemDetails['itemDescription'],
                 'city1' => City::find($price->city1_id)->name,
                 'city1_quality' => $price->quality_name,
                 'city1_sell_price_min' => $price->city1_sell_price_min,

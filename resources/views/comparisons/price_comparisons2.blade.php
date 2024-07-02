@@ -10,6 +10,7 @@
                     <thead>
                     <tr>
                         <th>Item ID</th>
+                        <th>Enchant</th>
                         <th>Quality</th>
                         <th>Cheapest City</th>
                         <th>Max Buy Price</th>
@@ -23,7 +24,19 @@
                     <tbody>
                     @foreach($priceComparisons2 as $comparison)
                         <tr>
-                            <td>{{ $comparison['item_id'] }}</td>
+                            <td>
+                                <a target="_blank" href="{{ url('/item/' . $comparison['item_id']) }}">
+                                    {{ $comparison['item_name'] }}
+                                </a>
+                            </td>
+                            <td>                            @php
+                                    // Determine the suffix value based on item_id
+                                    $suffix = 0; // Default value
+                                    if (strpos($comparison['item_id'], '@') !== false) {
+                                        $suffix = (int) substr($comparison['item_id'], -1);
+                                    }
+                                @endphp
+                                {{ $suffix }}</td>
                             <td>{{ $comparison['city1_quality'] }}</td>
                             <td>{{ $comparison['city1'] }}</td>
                             <td>{{ number_format($comparison['city1_buy_price_max'], 2) }} $</td>
@@ -49,7 +62,7 @@
     <script>
         $(document).ready(function () {
             var table = $('#DataTable').DataTable({
-                "order": [[ 7, "asc" ]], // Default sorting by Last Update column
+                "order": [[ 9, "asc" ]], // Default sorting by Last Update column
                 "columnDefs": [
                     { "orderable": false, "targets": [4] } // Disable sorting for ID and Description columns
                 ],
