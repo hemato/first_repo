@@ -1,47 +1,66 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>??</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
-    <link href="{{ asset('css/item_details.css') }}" rel="stylesheet">
-    <style>
-        .table-container {
-            display: flex;
-            justify-content: center;
-        }
-    </style>
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="{{ url('/') }}">Home</a>
-    <div class="collapse navbar-collapse">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('prices') }}">Prices //</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('opportunities') }}">Black Market //</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('price-comparisons1') }}">Sell Min - Buy Max //</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('price-comparisons2') }}">Buy Max - Sell Min //</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('price-comparisons3') }}">Buy Max - Buy Max //</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('price-comparisons4') }}">Sell Min - Sell Min //</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<x-laravel-ui-adminlte::adminlte-layout>
 
-    @yield('content')
+    <body class="hold-transition sidebar-mini layout-fixed">
+        <div class="wrapper">
+            <!-- Main Header -->
+            <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+                <!-- Left navbar links -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
+                                class="fas fa-bars"></i></a>
+                    </li>
+                </ul>
 
-</body>
-@yield('scripts')
-</html>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown user-menu">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                            <img src="https://assets.infyom.com/logo/blue_logo_150x150.png"
+                                class="user-image img-circle elevation-2" alt="User Image">
+                            <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <!-- User image -->
+                            <li class="user-header bg-primary">
+                                <img src="https://assets.infyom.com/logo/blue_logo_150x150.png"
+                                    class="img-circle elevation-2" alt="User Image">
+                                <p>
+                                    {{ Auth::user()->name }}
+                                    <small>Member since {{ Auth::user()->created_at->format('M. Y') }}</small>
+                                </p>
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                <a href="#" class="btn btn-default btn-flat float-right"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    Sign out
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Left side column. contains the logo and sidebar -->
+            @include('layouts.sidebar')
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                @yield('content')
+            </div>
+
+            <!-- Main Footer -->
+            <footer class="main-footer">
+                <div class="float-right d-none d-sm-block">
+                    <b>Version</b> 3.1.0
+                </div>
+                <strong>Copyright &copy; 2014-2023 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
+                reserved.
+            </footer>
+        </div>
+    </body>
+</x-laravel-ui-adminlte::adminlte-layout>
