@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -21,21 +20,26 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'profile_image',
+        'profile_description',
     ];
+
     public function adminlte_image()
     {
-        return 'https://picsum.photos/300/300';
+        return $this->profile_image ? asset('storage/' . $this->profile_image) : 'https://picsum.photos/300/300';
     }
 
     public function adminlte_desc()
     {
-        return 'I\'m a nice guy';
+        return $this->profile_description ? $this->profile_description : 'I\'m a bad guy';
     }
 
     public function adminlte_profile_url()
     {
-        return 'profile/username';
+//        return 'profile/' . $this->id;
+        return 'profile/edit';
     }
+
     /**
      * The attributes that should be hidden for serialization.
      *
