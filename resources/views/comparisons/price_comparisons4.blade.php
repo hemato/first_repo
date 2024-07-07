@@ -1,9 +1,10 @@
+
 @extends('layouts.app')
 @section('content')
     <div class="content-container">
         <div class="container mt-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="text-center mb-0">Buy Max - Buy Max</h1>
+                <h1 class="text-center mb-0">Sell Min - Sell Min</h1>
             </div>
             <div class="table-container">
                 <table id="DataTable" class="table table-bordered table-striped table-sm">
@@ -24,7 +25,6 @@
                     <tbody>
                     @foreach($priceComparisons4 as $comparison)
                         <tr>
-                            <td>{{ $comparison['item_id'] }}</td>,
                             <td>
                                 <a target="_blank" href="{{ url('/item/' . $comparison['item_id']) }}">
                                     {{ $comparison['item_name'] }}

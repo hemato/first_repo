@@ -24,7 +24,6 @@
                 <tbody>
                 @foreach($priceComparisons1 as $comparison)
                     <tr>
-                        <td>{{ $comparison['item_id'] }}</td>
                         <td>
                             <a target="_blank" href="{{ url('/item/' . $comparison['item_id']) }}">
                                 {{ $comparison['item_name'] }}
