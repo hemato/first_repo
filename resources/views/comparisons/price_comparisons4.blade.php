@@ -55,6 +55,16 @@
     </div>
 
 @endsection
+@push('css')
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="{{ asset('css/item_details.css') }}" rel="stylesheet">
+    <style>
+        .table-container {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+@endpush
 @push('js')
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
