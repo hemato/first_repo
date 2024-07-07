@@ -14,6 +14,7 @@
     </style>
 </head>
 <body>
+npm run dev
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="{{ url('/') }}">Home</a>
     <div class="collapse navbar-collapse">
@@ -25,9 +26,6 @@
                 <a class="nav-link" href="{{ route('opportunities') }}">Black Market //</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('price-comparisons1') }}">Sell Min - Buy Max //</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="{{ route('price-comparisons2') }}">Buy Max - Sell Min //</a>
             </li>
             <li class="nav-item">
@@ -36,11 +34,14 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('price-comparisons4') }}">Sell Min - Sell Min //</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('price-comparisons1') }}">Sell Min - Buy Max //</a>
+            </li>
         </ul>
     </div>
 </nav>
 
-    @yield('content')
+@yield('content')
 
 </body>
 @yield('scripts')
