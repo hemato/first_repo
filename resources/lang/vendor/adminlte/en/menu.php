@@ -16,4 +16,11 @@ return [
     'important' => 'Important',
     'warning' => 'Warning',
     'information' => 'Information',
+    'prices' => 'Prices',
+    'opportunities' => 'Opportunities',
+    'prices_current' => 'All Prices',
+    'price_comparisons2' => 'Buy Max - Sell Min',
+    'price_comparisons3' => 'Buy Max - Buy Max',
+    'price_comparisons4' => 'Sell Min - Sell Min',
+    'price_comparisons1' => 'Sell Min - Buy Max',
 ];

@@ -304,42 +304,32 @@ return [
             'type' => 'fullscreen-widget',
             'topnav_right' => true,
         ],
-
         // Sidebar items:
+        ['header' => 'opportunities'],
         [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
+            'text' => 'prices',
+            'url' => 'prices',
+            'icon' => 'fas fa-solid fa-money-bill',
         ],
         [
-            'text' => 'blog',
-            'url' => 'admin/blog',
-            'can' => 'manage-blog',
-        ],
-        [
-            'text' => 'pages',
-            'url' => 'admin/pages',
-            'icon' => 'far fa-fw fa-file',
-            'label' => 4,
-            'label_color' => 'success',
-        ],
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
-        [
-            'text' => 'multilevel',
-            'icon' => 'fas fa-fw fa-share',
+            'text' => 'opportunities',
+            'icon' => 'fas fa-solid fa-money-bill',
             'submenu' => [
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
+                    'text' => 'price_comparisons2',
+                    'url' => '/price-comparisons2',
+                ],
+                [
+                    'text' => 'price_comparisons3',
+                    'url' => '/price-comparisons3',
+                ],
+                [
+                    'text' => 'price_comparisons4',
+                    'url' => '/price-comparisons4',
+                ],
+                [
+                    'text' => 'price_comparisons1',
+                    'url' => '/price-comparisons1',
                 ],
                 [
                     'text' => 'level_one',

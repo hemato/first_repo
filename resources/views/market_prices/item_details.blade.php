@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('content')
+@section('content_body')
     <div class="container">
         <h1>Item Details for ID: {{ $item_id }}</h1>
 

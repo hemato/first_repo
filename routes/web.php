@@ -21,6 +21,7 @@ Route::get('/', function () {
 Route::get('/prices', [MarketController::class, 'index'])->name('prices');
 Route::post('/prices', [MarketController::class, 'store']);
 Route::post('/fetch-from-api', [MarketController::class, 'fetchFromApi']);
+Route::get('/item/{item_id}', [MarketController::class, 'showItemDetails'])->name('item.details');
 
 Route::get('/opportunities', [OpportunitiesController::class, 'index'])->name('opportunities');
 
@@ -28,8 +29,6 @@ Route::get('/price-comparisons1', [ComparisonsController::class, 'showItemPriceC
 Route::get('/price-comparisons2', [ComparisonsController::class, 'showItemPriceComparisons2'])->name('price-comparisons2');
 Route::get('/price-comparisons3', [ComparisonsController::class, 'showItemPriceComparisons3'])->name('price-comparisons3');
 Route::get('/price-comparisons4', [ComparisonsController::class, 'showItemPriceComparisons4'])->name('price-comparisons4');
-Route::get('/item/{item_id}', [MarketController::class, 'showItemDetails'])->name('item.details');
-
 
 Auth::routes();
 

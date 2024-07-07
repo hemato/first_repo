@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('content')
+@section('content_body')
     <div class="content-container">
         <div class="container mt-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
@@ -54,11 +54,19 @@
     </div>
 
 @endsection
-@section('scripts')
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+@push('css')
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="{{ asset('css/item_details.css') }}" rel="stylesheet">
+    <style>
+        .table-container {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+@endpush
+@push('js')
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function () {
             var table = $('#DataTable').DataTable({
@@ -91,4 +99,4 @@
         });
 
     </script>
-@endsection
+@endpush
