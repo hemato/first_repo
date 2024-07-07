@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarketController;
 use App\Http\Controllers\OpportunitiesController;
 use App\Http\Controllers\ComparisonsController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
