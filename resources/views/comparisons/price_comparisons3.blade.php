@@ -43,7 +43,16 @@
                             <td>{{ now()->diffInMinutes($comparison['city1_buy_price_max_date']) }}</td>
                             <td>{{ $comparison['city2'] }}</td>
                             <td>{{ number_format($comparison['city2_buy_price_max'], 2) }} $</td>
-                            <td>{{ now()->diffInMinutes($comparison['city2_buy_price_max_date']) }}</td>
+                            <td>
+                                @php
+                                    $diffMinutes = now()->diffInMinutes($comparison['city2_buy_price_max_date']);
+                                @endphp
+                                @if ($diffMinutes < 30)
+                                    <span class="text-success">{{ $diffMinutes }}</span>
+                                @else
+                                    {{ $diffMinutes }}
+                                @endif
+                            </td>
                             <td>{{ $comparison['profit'] }} $</td>
                         </tr>
                     @endforeach
