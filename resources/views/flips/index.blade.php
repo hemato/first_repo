@@ -24,20 +24,20 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($items as $item)
+                    @foreach($flipsData as $flip)
                         <tr>
-                            <td>{{ $item['id'] }}</td>
-                            <td>{{ $item['buyOrder']['itemTypeId'] }}</td>
-                            <td>{{ $item['buyOrder']['location'] }}</td>
-                            <td>{{ $item['buyOrder']['qualityLevel'] }}</td>
-                            <td>{{ $item['buyOrder']['unitPriceSilver'] }}</td>
-                            <td>{{ $item['buyOrder']['isConsumed'] }}</td>
-                            <td>{{ $item['sellOrder']['itemTypeId'] }}</td>
-                            <td>{{ $item['sellOrder']['location'] }}</td>
-                            <td>{{ $item['sellOrder']['qualityLevel'] }}</td>
-                            <td>{{ $item['sellOrder']['unitPriceSilver'] }}</td>
-                            <td>{{ $item['sellOrder']['isConsumed'] }}</td>
-                            <td>{{ $item['profit'] }}</td>
+                            <td>{{ $flip['id'] }}</td>
+                            <td>{{ $flip['buyOrder']['itemTypeId'] }}</td>
+                            <td>{{ $flip['buyOrder']['location'] }}</td>
+                            <td>{{ $flip['buyOrder']['qualityLevel'] }}</td>
+                            <td>{{ $flip['buyOrder']['unitPriceSilver'] }}</td>
+                            <td>{{ $flip['buyOrder']['isConsumed'] }}</td>
+                            <td>{{ $flip['sellOrder']['itemTypeId'] }}</td>
+                            <td>{{ $flip['sellOrder']['location'] }}</td>
+                            <td>{{ $flip['sellOrder']['qualityLevel'] }}</td>
+                            <td>{{ $flip['sellOrder']['unitPriceSilver'] }}</td>
+                            <td>{{ $flip['sellOrder']['isConsumed'] }}</td>
+                            <td>{{ $flip['profit'] }}</td>
                         </tr>
                     @endforeach
                     </tbody>
