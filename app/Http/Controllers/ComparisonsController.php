@@ -36,7 +36,7 @@ class ComparisonsController extends Controller
             })
             ->where('mp1.buy_price_max', '>', 0) // mp1 tablosundaki buy_price_max değeri 0'dan büyük olmalı
             ->where('mp2.sell_price_min', '>', 0) // mp2 tablosundaki sell_price_min değeri 0'dan büyük olmalı
-            ->where('mp2.city_id', '<>', 1) // ikinci(alım) şehrin id'si 3 olmamalı
+            ->where('mp2.city_id', '<>', 3) // ikinci(alım) şehrin id'si 3 olmamalı
             ->where('mp1.quality_id', '<>', 5) // quality masterpiece olmamalı
             ->get(); // Sonucu getirir
 
@@ -88,7 +88,7 @@ class ComparisonsController extends Controller
             })
             ->where('mp1.buy_price_max', '>', 0) // mp1 tablosundaki buy_price_max değeri 0'dan büyük olmalı
             ->where('mp2.sell_price_min', '>', 0) // mp2 tablosundaki sell_price_min değeri 0'dan büyük olmalı
-            ->where('mp1.city_id', '<>', 1) // birinci(alım) şehrin id'si 3 olmamalı
+            ->where('mp1.city_id', '<>', 3) // birinci(alım) şehrin id'si 3 olmamalı
             ->where('mp1.quality_id', '<>', 5) // quality masterpiece olmamalı
             ->get(); // Sonucu getirir
 
@@ -142,7 +142,7 @@ class ComparisonsController extends Controller
             })
             ->where('mp1.buy_price_max', '>', 0) // mp1 tablosundaki buy_price_max değeri 0'dan büyük olmalı
             ->where('mp2.buy_price_max', '>', 0) // mp2 tablosundaki sell_price_min değeri 0'dan büyük olmalı
-            ->where('mp1.city_id', '<>', 1) // ikinci(alım) şehrin id'si 3 olmamalı
+            ->where('mp1.city_id', '<>', 3) // ikinci(alım) şehrin id'si 3 olmamalı
             ->where('mp1.quality_id', '<>', 5) // quality masterpiece olmamalı
             ->get(); // Sonucu getirir
 
@@ -194,7 +194,7 @@ class ComparisonsController extends Controller
             })
             ->where('mp1.sell_price_min', '>', 0) // mp1 tablosundaki buy_price_max değeri 0'dan büyük olmalı
             ->where('mp2.sell_price_min', '>', 0) // mp2 tablosundaki sell_price_min değeri 0'dan büyük olmalı
-            ->where('mp1.city_id', '<>', 1) // ikinci(alım) şehrin id'si 3 olmamalı
+            ->where('mp1.city_id', '<>', 3) // ikinci(alım) şehrin id'si 3 olmamalı
             ->where('mp1.quality_id', '<>', 5) // quality masterpiece olmamalı
             ->get(); // Sonucu getirir
 

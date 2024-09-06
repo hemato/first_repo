@@ -5,6 +5,7 @@ use App\Http\Controllers\MarketController;
 use App\Http\Controllers\OpportunitiesController;
 use App\Http\Controllers\ComparisonsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FlipController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,8 @@ Route::get('/price-comparisons1', [ComparisonsController::class, 'showItemPriceC
 Route::get('/price-comparisons2', [ComparisonsController::class, 'showItemPriceComparisons2'])->name('price-comparisons2');
 Route::get('/price-comparisons3', [ComparisonsController::class, 'showItemPriceComparisons3'])->name('price-comparisons3');
 Route::get('/price-comparisons4', [ComparisonsController::class, 'showItemPriceComparisons4'])->name('price-comparisons4');
+
+Route::get('/flips', [FlipController::class, 'index'])->name('flips.index');
 
 Auth::routes();
 
