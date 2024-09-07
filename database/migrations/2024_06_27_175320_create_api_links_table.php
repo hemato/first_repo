@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('api_links', function (Blueprint $table) {
             $table->id();
-            $table->string('url');
+            $table->text('url'); // 'url' sütunu text olarak ayarlandı
             $table->timestamps();
         });
     }
