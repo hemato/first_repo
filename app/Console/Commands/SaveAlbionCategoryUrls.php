@@ -22,7 +22,7 @@ class SaveAlbionCategoryUrls extends Command
             return;
         }
 
-        // `lang/items.json` dosyasını oku
+        // lang/items.json dosyasını oku
         $itemsJsonPath = resource_path('lang/items.json');
         $itemsJsonData = json_decode(file_get_contents($itemsJsonPath), true);
 
@@ -66,7 +66,7 @@ class SaveAlbionCategoryUrls extends Command
             if (!empty($uniqueNames)) {
                 $allUniqueNames = [];
 
-                // `items.json` içindeki tüm UniqueName'leri kontrol et
+                // items.json içindeki tüm UniqueName'leri kontrol et
                 foreach ($itemsJsonData as $item) {
                     if (isset($item['UniqueName'])) {
                         foreach ($uniqueNames as $uniqueName) {
