@@ -44,7 +44,7 @@
                             <td>{{ $comparison['city1'] }}</td>
                             <td>{{ number_format($comparison['city1_buy_price_max'], 2) }} $</td>
                             <td>{{ now()->diffInMinutes($comparison['city1_buy_price_max_date']) }}</td>
-                            <td>{{ $comparison['profit'] }} $</td>
+                            <td>{{ number_format($comparison['profit'], 2) }} $</td>
                         </tr>
                     @endforeach
                     </tbody>

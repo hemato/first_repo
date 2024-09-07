@@ -3,7 +3,7 @@
     <div class="content-container">
         <div class="container mt-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="text-center mb-0">Sell Min - Buy Max</h1>
+                <h1 class="text-center mb-0">Flips by HematoTR</h1>
             </div>
             <div class="table-container">
                 <table id="DataTable" class="table table-bordered table-striped table-sm">
@@ -13,11 +13,13 @@
                         <th>You need to sell this</th>
                         <th>Buy Order Location</th>
                         <th>Buy Order Quality</th>
+                        <th>Buy Order Enchant</th>
                         <th>Buy Order Price</th>
                         <th>Buy Consumed</th>
                         <th>You need to buy this</th>
                         <th>Sell Order Location</th>
                         <th>Sell Order Quality</th>
+                        <th>Sell Order Enchant</th>
                         <th>Sell Order Price</th>
                         <th>Sell Consumed</th>
                         <th>Profit</th>
@@ -26,18 +28,20 @@
                     <tbody>
                     @foreach($flipsData as $flip)
                         <tr>
-                            <td>{{ $flip['id'] }}</td>
-                            <td>{{ $flip['buyOrder']['itemTypeId'] }}</td>
-                            <td>{{ $flip['buyOrder']['location'] }}</td>
-                            <td>{{ $flip['buyOrder']['qualityLevel'] }}</td>
-                            <td>{{ $flip['buyOrder']['unitPriceSilver'] }}</td>
-                            <td>{{ $flip['buyOrder']['isConsumed'] }}</td>
-                            <td>{{ $flip['sellOrder']['itemTypeId'] }}</td>
-                            <td>{{ $flip['sellOrder']['location'] }}</td>
-                            <td>{{ $flip['sellOrder']['qualityLevel'] }}</td>
-                            <td>{{ $flip['sellOrder']['unitPriceSilver'] }}</td>
-                            <td>{{ $flip['sellOrder']['isConsumed'] }}</td>
-                            <td>{{ $flip['profit'] }}</td>
+                            <td>{{ $flip->api_id }}</td>
+                            <td>{{ $flip->buy_order_item_type_id }}</td>
+                            <td>{{ $flip->buy_order_location }}</td>
+                            <td>{{ $flip->buy_order_quality_level }}</td>
+                            <td>{{ $flip->buy_order_enchantment_level }}</td>
+                            <td>{{ number_format($flip->buy_order_unit_price_silver, 2) }} $</td>
+                            <td>{{ $flip->buy_order_is_consumed }}</td>
+                            <td>{{ $flip->sell_order_item_type_id }}</td>
+                            <td>{{ $flip->sell_order_location }}</td>
+                            <td>{{ $flip->sell_order_quality_level }}</td>
+                            <td>{{ $flip->sell_order_enchantment_level }}</td>
+                            <td>{{ number_format($flip->sell_order_unit_price_silver, 2) }} $</td>
+                            <td>{{ $flip->sell_order_is_consumed }}</td>
+                            <td>{{ number_format($flip->profit, 2) }} $</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -63,9 +67,9 @@
     <script>
         $(document).ready(function () {
             var table = $('#DataTable').DataTable({
-                "order": [[ 9, "asc" ]], // Default sorting by Last Update column
+                "order": [[ 13, "asc" ]], // Default sorting by Last Update column
                 "columnDefs": [
-                    { "orderable": false, "targets": [4] } // Disable sorting for ID and Description columns
+                    { "orderable": false, "targets": [0] } // Disable sorting for ID and Description columns
                 ],
                 "pageLength": 100 // Default page length
             });

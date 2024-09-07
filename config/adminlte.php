@@ -323,20 +323,23 @@ return [
             'icon' => 'fas fa-solid fa-money-bill',
         ],
         [
+            'text' => 'flips',
+            'url' => 'flips',
+            'icon' => 'fas fa-solid fa-money-bill',
+            'submenu' => [
+                [
+                    'text' => 'flips_update',
+                    'url' => '/flips/update',
+                ],
+            ]
+        ],
+        [
             'text' => 'opportunities',
             'icon' => 'fas fa-solid fa-money-bill',
             'submenu' => [
                 [
-                    'text' => 'price_comparisons2',
-                    'url' => '/price-comparisons2',
-                ],
-                [
                     'text' => 'price_comparisons3',
                     'url' => '/price-comparisons3',
-                ],
-                [
-                    'text' => 'price_comparisons4',
-                    'url' => '/price-comparisons4',
                 ],
                 [
                     'text' => 'price_comparisons1',

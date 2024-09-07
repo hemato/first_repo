@@ -44,7 +44,7 @@ class ComparisonsController extends Controller
         $priceComparisons1 = [];
         foreach ($allPrices as $price) {
             $itemDetails = getItemDetails($price->item_id);
-            $profit = abs($price->city1_buy_price_max - $price->city2_sell_price_min); // Profit hesaplaması
+            $profit = abs($price->city1_buy_price_max*0.96 - $price->city2_sell_price_min); // Profit hesaplaması
             $priceComparisons1[] = [
                 'item_id' => $price->item_id,
                 'item_name' => $itemDetails['itemName'],
@@ -150,7 +150,7 @@ class ComparisonsController extends Controller
         $priceComparisons3 = [];
         foreach ($allPrices as $price) {
             $itemDetails = getItemDetails($price->item_id);
-            $profit = abs($price->city2_buy_price_max - $price->city1_buy_price_max); // Profit hesaplaması
+            $profit = abs($price->city2_buy_price_max*0.96 - $price->city1_buy_price_max); // Profit hesaplaması
             $priceComparisons3[] = [
                 'item_id' => $price->item_id,
                 'item_name' => $itemDetails['itemName'],

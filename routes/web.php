@@ -12,7 +12,7 @@ use App\Http\Controllers\FlipController;
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
+| Here is where you can register web routes for your    application. These
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
@@ -33,7 +33,11 @@ Route::get('/price-comparisons2', [ComparisonsController::class, 'showItemPriceC
 Route::get('/price-comparisons3', [ComparisonsController::class, 'showItemPriceComparisons3'])->name('price-comparisons3');
 Route::get('/price-comparisons4', [ComparisonsController::class, 'showItemPriceComparisons4'])->name('price-comparisons4');
 
-Route::get('/flips', [FlipController::class, 'index'])->name('flips.index');
+Route::get('/flips', [FlipController::class, 'index']);
+Route::get('/flips/update', [FlipController::class, 'updateFlips']);
+Route::get('/flips/update-json', [FlipController::class, 'updateFromJsonFile']);
+
+
 
 Auth::routes();
 

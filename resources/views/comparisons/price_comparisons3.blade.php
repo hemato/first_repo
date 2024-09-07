@@ -53,7 +53,7 @@
                                     {{ $diffMinutes }}
                                 @endif
                             </td>
-                            <td>{{ $comparison['profit'] }} $</td>
+                            <td>{{ number_format($comparison['profit'], 2) }} $</td>
                         </tr>
                     @endforeach
                     </tbody>
