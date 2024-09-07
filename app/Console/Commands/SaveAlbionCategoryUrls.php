@@ -70,19 +70,23 @@ class SaveAlbionCategoryUrls extends Command
                     }
                 }
 
-                // UniqueName'leri virgülle ayır ve URL oluştur
-                $uniqueNamesString = implode(',', $allUniqueNames);
-                $url = "https://europe.albion-online-data.com/api/v2/stats/prices/{$uniqueNamesString}";
+                // UniqueName'leri ikiye böl ve URL oluştur
+                $uniqueNamesChunks = array_chunk($allUniqueNames, ceil(count($allUniqueNames) / 2));
 
-                // Veritabanına kaydet
-                DB::table('api_links')->insert([
-                    'url' => $url,
-                    'created_at' => now(),
-                    'updated_at' => now()
-                ]);
+                foreach ($uniqueNamesChunks as $index => $chunk) {
+                    $uniqueNamesString = implode(',', $chunk);
+                    $url = "https://europe.albion-online-data.com/api/v2/stats/prices/{$uniqueNamesString}";
 
-                // URL'yi ekrana yazdır
-                $this->info("Generated URL for category '{$category}': {$url}");
+                    // Veritabanına kaydet
+                    DB::table('api_links')->insert([
+                        'url' => $url,
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ]);
+
+                    // URL'yi ekrana yazdır
+                    $this->info("Generated URL for category '{$category}' (part " . ($index + 1) . "): {$url}");
+                }
             }
         }
 
