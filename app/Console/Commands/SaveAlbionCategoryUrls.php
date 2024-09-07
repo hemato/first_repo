@@ -41,14 +41,21 @@ class SaveAlbionCategoryUrls extends Command
             'accessories' => []
         ];
 
-        // JSON içindeki tüm anahtarları kontrol et
+        // JSON içindeki tüm anahtarları kontrol et ve sadece t5, t6, t7, t8 olanları al
         foreach ($jsonData as $key => $items) {
             if (is_array($items)) {
                 foreach ($items as $item) {
-                    if (is_array($item) && isset($item['@shopcategory']) && isset($categories[$item['@shopcategory']])) {
-                        $category = $item['@shopcategory'];
-                        $uniquename = $item['@uniquename'];
-                        $categories[$category][] = $uniquename;
+                    if (is_array($item) && isset($item['@shopcategory'], $item['@uniquename']) && isset($categories[$item['@shopcategory']])) {
+                        $uniqueName = $item['@uniquename'];
+                        // UniqueName'in t5 ve üstü olup olmadığını kontrol et
+                        if (strpos($uniqueName, 'T4') === 0 ||
+                            strpos($uniqueName, 'T5') === 0 ||
+                            strpos($uniqueName, 'T6') === 0 ||
+                            strpos($uniqueName, 'T7') === 0 ||
+                            strpos($uniqueName, 'T8') === 0) {
+                            $category = $item['@shopcategory'];
+                            $categories[$category][] = $uniqueName;
+                        }
                     }
                 }
             }

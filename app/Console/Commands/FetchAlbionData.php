@@ -16,6 +16,10 @@ class FetchAlbionData extends Command
 
     public function handle()
     {
+
+        // market_prices tablosundaki mevcut verileri sil
+        MarketPrices::truncate();
+
         // Tüm API linklerini al
         $apiLinks = ApiLink::all();
 
