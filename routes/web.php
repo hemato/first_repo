@@ -53,6 +53,10 @@ Route::get('/process-items', [ProcessedItemsController::class, 'fetchProcessedIt
 //market_prices tablosundaki item_name lere ait upgraderesourceları alır
 Route::get('/fetch-upgrade-all', [UpgradeResourceController::class, 'fetchUpgradeRequirementsForAllItems']);
 
+
+Route::get('/resources', [MarketController::class, 'resources']);
+
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

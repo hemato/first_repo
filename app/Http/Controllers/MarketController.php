@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Cache;
 use App\Services\ItemNameService;
+use App\Models\UpgradeResource;
 
 class MarketController extends Controller
 {
@@ -21,6 +22,24 @@ class MarketController extends Controller
         $marketPrices = MarketPrices::with('city')->get();
 
         return view('market_prices.index', compact('marketPrices'));
+    }
+
+    public function resources()
+    {
+        // Benzersiz item_name değerlerini al
+        $uniqueItemNames = MarketPrices::select('item_name')
+            ->distinct()
+            ->pluck('item_name');
+
+        // Her item_name için gerekli upgrade kaynaklarını al
+        $listResources = [];
+        foreach ($uniqueItemNames as $itemName) {
+            $listResources[$itemName] = UpgradeResource::where('item_name', $itemName)
+                ->orderBy('enchantmentlevel')
+                ->get(['enchantmentlevel', 'upgraderesource_name', 'upgraderesource_count']);
+        }
+
+        return view('market_prices.resources', compact('listResources'));
     }
 
     public function store(Request $request)
