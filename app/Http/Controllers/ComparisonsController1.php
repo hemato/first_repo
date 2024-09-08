@@ -6,7 +6,7 @@ use App\Models\MarketPrices;
 use App\Models\City;
 use App\Services\ItemNameService;
 use Illuminate\Support\Collection;
-
+use Carbon\Carbon;
 class ComparisonsController1 extends Controller
 {
     protected $itemNameService;
@@ -40,6 +40,7 @@ class ComparisonsController1 extends Controller
                 ->where('city_id', '<>', $price1->city_id) //$potentialSales : city_id si price1 city_id ile aynı olmayan kayıtlar
                 ->where('city_id', '<>', 3) //$potentialSales : city_id si price1 city_id 3 olmayan kayıtlar satın alım şehri id si 3 olmayacak
                 ->where('sell_price_min', '>', 0) //$potentialSales : sell_price_min değeri 0 dan büyük olanlar yani alabileceğimiz itemlar.
+                ->where('sell_price_min_date', '>=', Carbon::now()->subMinutes(120))
                 ->get();
 
             //yani price1 yani city1 satış şehri
