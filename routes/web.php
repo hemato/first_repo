@@ -8,6 +8,8 @@ use App\Http\Controllers\ComparisonsController1;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FlipController;
 use App\Http\Controllers\ProcessedItemsController;
+use App\Http\Controllers\UpgradeResourceController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -48,7 +50,8 @@ Route::get('/flips', [FlipController::class, 'index']);
 //api_link tablosu için belirli kategorilere ait linkler oluşturur
 Route::get('/process-items', [ProcessedItemsController::class, 'fetchProcessedItems']);
 
-
+//market_prices tablosundaki item_name lere ait upgraderesourceları alır
+Route::get('/fetch-upgrade-all', [UpgradeResourceController::class, 'fetchUpgradeRequirementsForAllItems']);
 
 Auth::routes();
 

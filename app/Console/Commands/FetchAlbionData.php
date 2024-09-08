@@ -42,7 +42,7 @@ class FetchAlbionData extends Command
 
                         if ($existingPrice) {
                             $existingPrice->update([
-                                'item_name' => $priceData['item_id'],
+                                'item_name' => $this->extractItemName($priceData['item_id']),
                                 'quantity' => $priceData['quantity'] ?? 1,
                                 'sell_price_min' => $priceData['sell_price_min'] ?? 0,
                                 'sell_price_min_date' => $this->validateDate($priceData['sell_price_min_date'] ?? now()),
@@ -58,7 +58,7 @@ class FetchAlbionData extends Command
                         } else {
                             MarketPrices::create([
                                 'item_id' => $priceData['item_id'],
-                                'item_name' => $priceData['item_id'],  // item_name eksikse item_id'yi kullan
+                                'item_name' => $this->extractItemName($priceData['item_id']),
                                 'city_id' => $city->id,
                                 'quality_id' => $priceData['quality'],
                                 'quantity' => $priceData['quantity'] ?? 1,
@@ -82,7 +82,11 @@ class FetchAlbionData extends Command
         $this->info('Data fetched successfully from Albion Online API.');
     }
 
-
+    private function extractItemName($item_id)
+    {
+        // Check if item_id contains '@' and return the part before '@', otherwise return the original item_id
+        return strpos($item_id, '@') !== false ? substr($item_id, 0, strpos($item_id, '@')) : $item_id;
+    }
     private function calculateEnchant($item_id)
     {
         if (strpos($item_id, '@') !== false) {

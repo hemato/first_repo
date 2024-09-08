@@ -5,7 +5,6 @@ namespace App\Models; // Bu satır, dosyanın bulunduğu klasör yapısını bel
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model; // Eloquent, Laravel'in veritabanı ile çalışmayı kolaylaştıran bir özelliğidir.
 
-
 class MarketPrices extends Model
 {
     use HasFactory;
@@ -28,6 +27,12 @@ class MarketPrices extends Model
     {
         return $this->belongsTo(Quality::class, 'quality_id');
         // Bu fonksiyon, market_prices tablosundaki quality_id sütununun, qualities tablosundaki verilerle ilişkili olduğunu belirtir.
+    }
+
+    // UpgradeResource ile ilişki
+    public function upgradeResource()
+    {
+        return $this->hasMany(UpgradeResource::class, 'item_name', 'item_name');
     }
 }
 
