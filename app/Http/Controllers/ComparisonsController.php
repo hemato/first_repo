@@ -75,7 +75,7 @@ class ComparisonsController extends Controller
             ];
         }
 
-        return view('comparisons.price_comparisons1', compact('priceComparisons1'));
+        return view('comparisons.price_comparisons11', compact('priceComparisons1'));
     }
 
     public function showItemPriceComparisons2()

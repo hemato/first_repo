@@ -3,7 +3,7 @@
     <div class="content-container">
         <div class="container mt-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="text-center mb-0">Sell Min - Buy Max 1</h1>
+                <h1 class="text-center mb-0">Sell Min - Buy Max 11</h1>
             </div>
             <div class="table-container">
                 <table id="DataTable" class="table table-bordered table-striped table-sm">

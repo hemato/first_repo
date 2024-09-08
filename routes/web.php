@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarketController;
 use App\Http\Controllers\OpportunitiesController;
 use App\Http\Controllers\ComparisonsController;
+use App\Http\Controllers\ComparisonsController1;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FlipController;
 use App\Http\Controllers\ProcessedItemsController;
@@ -29,7 +30,9 @@ Route::get('/item/{item_id}', [MarketController::class, 'showItemDetails'])->nam
 Route::get('/opportunities', [OpportunitiesController::class, 'index'])->name('opportunities');
 
 //price-comparisons sayfaları için route tanımlar ve name içindeki veriler için url tanımı yapar.
-Route::get('/price-comparisons1', [ComparisonsController::class, 'showItemPriceComparisons1'])->name('price-comparisons1');
+Route::get('/price-comparisons1', [ComparisonsController1::class, 'showItemPriceComparisons'])->name('price-comparisons');
+
+Route::get('/price-comparisons11', [ComparisonsController::class, 'showItemPriceComparisons1'])->name('price-comparisons1');
 Route::get('/price-comparisons2', [ComparisonsController::class, 'showItemPriceComparisons2'])->name('price-comparisons2');
 Route::get('/price-comparisons3', [ComparisonsController::class, 'showItemPriceComparisons3'])->name('price-comparisons3');
 Route::get('/price-comparisons4', [ComparisonsController::class, 'showItemPriceComparisons4'])->name('price-comparisons4');
