@@ -33,6 +33,7 @@ class FetchAlbionData extends Command
                 if (is_array($data) && !empty($data)) {
                     foreach ($data as $priceData) {
                         $city = City::firstOrCreate(['name' => $priceData['city']], ['is_blackzone' => false]);
+                        $enchant = $this->calculateEnchant($priceData['item_id']);
 
                         $existingPrice = MarketPrices::where('item_id', $priceData['item_id'])
                             ->where('city_id', $city->id)
@@ -52,6 +53,7 @@ class FetchAlbionData extends Command
                                 'buy_price_max' => $priceData['buy_price_max'] ?? 0,
                                 'buy_price_max_date' => $this->validateDate($priceData['buy_price_max_date'] ?? now()),
                                 'description' => 'Fetched from API',
+                                'enchant' => $enchant ?? 0, // Enchant değeri
                             ]);
                         } else {
                             MarketPrices::create([
@@ -69,6 +71,7 @@ class FetchAlbionData extends Command
                                 'buy_price_max' => $priceData['buy_price_max'] ?? 0,
                                 'buy_price_max_date' => $this->validateDate($priceData['buy_price_max_date'] ?? now()),
                                 'description' => 'Fetched from API',
+                                'enchant' => $enchant ?? 0, // Enchant değeri
                             ]);
                         }
                     }
@@ -78,6 +81,16 @@ class FetchAlbionData extends Command
 
         $this->info('Data fetched successfully from Albion Online API.');
     }
+
+
+    private function calculateEnchant($item_id)
+    {
+        if (strpos($item_id, '@') !== false) {
+            return (int) substr($item_id, -1); // Enchant değerini al
+        }
+        return 0; // Enchant yoksa sıfır döner
+    }
+
     private function validateDate($date)
     {
         try {
