@@ -16,26 +16,9 @@ class MarketController extends Controller
 {
     public function index()
     {
-/*        // JSON dosyasını yükle
-        $jsonFile = File::get(resource_path('lang/items.json'));
-        $jsonData = json_decode($jsonFile);*/
 
         // MarketPrices'ı yükle, city ilişkisini de dahil et
         $marketPrices = MarketPrices::with('city')->get();
-
-/*        // Her marketPrice için ilgili dil verilerini ekle
-        foreach ($marketPrices as $marketPrice) {
-            $uniqueName = $marketPrice->item_id;
-
-            // JSON dosyasındaki dil verilerini al
-            foreach ($jsonData as $item) {
-                if ($item->UniqueName === $uniqueName) {
-                    $marketPrice->itemName = $item->LocalizedNames->{'EN-US'};
-                    $marketPrice->itemDescription = $item->LocalizedDescriptions->{'EN-US'};
-                    break; // Eşleşme bulunduğunda döngüden çık
-                }
-            }
-        }*/
 
         return view('market_prices.index', compact('marketPrices'));
     }
