@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models; // Bu satır, dosyanın bulunduğu klasör yapısını belirtir.
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model; // Eloquent, Laravel'in veritabanı ile çalışmayı kolaylaştıran bir özelliğidir.
+
 
 class MarketPrices extends Model
 {
@@ -15,12 +16,23 @@ class MarketPrices extends Model
         'buy_price_max_date','enchant', 'description'
     ];
 
+    // Şehir bilgisi ile ilişki kuruyoruz.
     public function city()
     {
-        return $this->belongsTo(City::class);
+        return $this->belongsTo(City::class, 'city_id');
+        // Bu fonksiyon, market_prices tablosundaki city_id sütununun, cities tablosundaki verilerle ilişkili olduğunu belirtir.
     }
+
+    // Kalite bilgisi ile ilişki kuruyoruz.
     public function quality()
     {
-        return $this->belongsTo(Quality::class);
+        return $this->belongsTo(Quality::class, 'quality_id');
+        // Bu fonksiyon, market_prices tablosundaki quality_id sütununun, qualities tablosundaki verilerle ilişkili olduğunu belirtir.
     }
 }
+
+
+//belongsTo: Bu, Laravel'in bir tabloyu başka bir tabloyla ilişkilendirme şeklidir.
+// Örneğin, MarketPrices tablosundaki city_id sütunu, cities tablosundaki bir kaydı temsil eder. Bu sayede bir fiyatın hangi şehre ait olduğunu öğrenebiliriz.
+//hasMany: Bir tablo ile birçok satır arasında ilişki olduğunu gösterir.
+// Yani bir şehir, birden fazla market_prices kaydına sahip olabilir. Örneğin, Londra'nın (City) birçok farklı eşyanın fiyat bilgilerini (MarketPrices) barındırabileceğini düşünün.
