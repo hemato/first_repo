@@ -12,7 +12,7 @@ class MarketPrices extends Model
     protected $fillable = [
         'item_id', 'item_name', 'city_id', 'quality_id', 'quantity', 'sell_price_min', 'sell_price_min_date',
         'sell_price_max', 'sell_price_max_date', 'buy_price_min', 'buy_price_min_date', 'buy_price_max',
-        'buy_price_max_date', 'description'
+        'buy_price_max_date','enchant', 'description'
     ];
 
     public function city()

@@ -6,6 +6,7 @@ use App\Http\Controllers\OpportunitiesController;
 use App\Http\Controllers\ComparisonsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FlipController;
+use App\Http\Controllers\ProcessedItemsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/prices', [MarketController::class, 'index'])->name('prices');
+Route::get('/prices', [MarketController::class, 'showItemNames']);
+
 Route::post('/prices', [MarketController::class, 'store']);
 Route::post('/fetch-from-api', [MarketController::class, 'fetchFromApi']);
 Route::get('/item/{item_id}', [MarketController::class, 'showItemDetails'])->name('item.details');
@@ -36,6 +39,7 @@ Route::get('/price-comparisons4', [ComparisonsController::class, 'showItemPriceC
 Route::get('/flips', [FlipController::class, 'index']);
 Route::get('/flips/update', [FlipController::class, 'updateFlips']);
 Route::get('/flips/update-json', [FlipController::class, 'updateFromJsonFile']);
+Route::get('/process-items', [ProcessedItemsController::class, 'fetchProcessedItems']);
 
 
 

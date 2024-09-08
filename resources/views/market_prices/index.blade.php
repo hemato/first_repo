@@ -30,17 +30,10 @@
                     <tr>
                         <td>
                             <a target="_blank" href="{{ url('/item/' . $marketPrice->item_id) }}">
-                                {{ $marketPrice->itemName }}
+                                {{ $marketPrice->item_name }}
                             </a>
                         </td>
-                        <td>                            @php
-                                // Determine the suffix value based on item_id
-                                $suffix = 0; // Default value
-                                if (strpos($marketPrice->item_id, '@') !== false) {
-                                    $suffix = (int) substr($marketPrice->item_id, -1);
-                                }
-                            @endphp
-                            {{ $suffix }}</td>
+                        <td>{{ $marketPrice->enchant }}</td>
                         <td>{{ $marketPrice->quality->name }}</td>
                         <td>{{ $marketPrice->city->name }}</td>
                         <td>{{ $marketPrice->sell_price_min }}</td>

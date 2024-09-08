@@ -3,27 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\ApiLink;
-use App\Helpers\ItemHelper;
 use Illuminate\Http\Request;
 use App\Models\MarketPrices;
 use App\Models\City;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Facades\Cache;
+use App\Services\ItemNameService;
 
 class MarketController extends Controller
 {
     public function index()
     {
-        // JSON dosyasını yükle
+/*        // JSON dosyasını yükle
         $jsonFile = File::get(resource_path('lang/items.json'));
-        $jsonData = json_decode($jsonFile);
+        $jsonData = json_decode($jsonFile);*/
 
         // MarketPrices'ı yükle, city ilişkisini de dahil et
         $marketPrices = MarketPrices::with('city')->get();
 
-        // Her marketPrice için ilgili dil verilerini ekle
+/*        // Her marketPrice için ilgili dil verilerini ekle
         foreach ($marketPrices as $marketPrice) {
             $uniqueName = $marketPrice->item_id;
 
@@ -35,7 +35,7 @@ class MarketController extends Controller
                     break; // Eşleşme bulunduğunda döngüden çık
                 }
             }
-        }
+        }*/
 
         return view('market_prices.index', compact('marketPrices'));
     }
@@ -43,6 +43,7 @@ class MarketController extends Controller
     public function store(Request $request)
     {
         $city = City::find($request->city_id);
+        $enchant = $this->calculateEnchant($request->item_id);
 
         $existingPrice = MarketPrices::where('item_id', $request->item_id)
             ->where('city_id', $city->id)
@@ -62,6 +63,7 @@ class MarketController extends Controller
                 'buy_price_max' => $request->buy_price_max,
                 'buy_price_max_date' => $this->validateDate($request->buy_price_max_date),
                 'description' => $request->description,
+                'enchant' => $enchant ?? 0, // Enchant değeri
             ]);
         } else {
             MarketPrices::create([
@@ -79,6 +81,7 @@ class MarketController extends Controller
                 'buy_price_max' => $request->buy_price_max,
                 'buy_price_max_date' => $this->validateDate($request->buy_price_max_date),
                 'description' => $request->description,
+                'enchant' => $enchant ?? 0, // Enchant değeri
             ]);
         }
 
@@ -101,6 +104,7 @@ class MarketController extends Controller
             if (is_array($data) && !empty($data)) {
                 foreach ($data as $priceData) {
                     $city = City::firstOrCreate(['name' => $priceData['city']], ['is_blackzone' => false]);
+                    $enchant = $this->calculateEnchant($priceData['item_id']);
 
                     $existingPrice = MarketPrices::where('item_id', $priceData['item_id'])
                         ->where('city_id', $city->id)
@@ -120,6 +124,7 @@ class MarketController extends Controller
                             'buy_price_max' => $priceData['buy_price_max'] ?? 0,
                             'buy_price_max_date' => $this->validateDate($priceData['buy_price_max_date'] ?? now()),
                             'description' => 'Fetched from API',
+                            'enchant' => $enchant ?? 0, // Enchant değeri
                         ]);
                     } else {
                         MarketPrices::create([
@@ -137,6 +142,7 @@ class MarketController extends Controller
                             'buy_price_max' => $priceData['buy_price_max'] ?? 0,
                             'buy_price_max_date' => $this->validateDate($priceData['buy_price_max_date'] ?? now()),
                             'description' => 'Fetched from API',
+                            'enchant' => $enchant ?? 0, // Enchant değeri
                         ]);
                     }
                 }
@@ -190,4 +196,27 @@ class MarketController extends Controller
         return view('market_prices.item_details', compact('groupedDetails', 'item_id'));
     }
 
+    private function calculateEnchant($item_id)
+    {
+        if (strpos($item_id, '@') !== false) {
+            return (int) substr($item_id, -1); // Enchant değerini al
+        }
+        return 0; // Enchant yoksa sıfır döner
+    }
+
+    public function showItemNames(ItemNameService $itemNameService)
+    {
+        // Service sınıfını kullanarak JSON verisini al
+        $jsonData = $itemNameService->getItemNameMappings();
+
+        // Market prices tablosundaki tüm item'ları alalım
+        $marketPrices = MarketPrices::all();
+
+        // JSON verileri ile item_id'leri eşleyelim
+        foreach ($marketPrices as $marketPrice) {
+            $marketPrice->item_name = $jsonData[$marketPrice->item_id] ?? 'Unknown';
+        }
+
+        return view('market_prices.index', compact('marketPrices'));
+    }
 }

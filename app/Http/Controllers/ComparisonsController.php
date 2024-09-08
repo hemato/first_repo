@@ -9,8 +9,18 @@ use App\Models\City;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use App\Services\ItemNameService; // ItemNameService sınıfını ekleyin
+
+
 class ComparisonsController extends Controller
 {
+    protected $itemNameService;
+
+    public function __construct(ItemNameService $itemNameService)
+    {
+        $this->itemNameService = $itemNameService;
+    }
+
     public function showItemPriceComparisons1()
     {
         // Tüm market_prices kayıtlarını alıp farkı 10.000 ve büyük olan buy_price_max değerlerini bulmak için
@@ -19,6 +29,7 @@ class ComparisonsController extends Controller
                 'mp1.item_id',
                 'mp1.city_id as city1_id',
                 'mp1.quality_id',
+                'mp1.enchant as enchant',
                 'qualities.name as quality_name',
                 'mp1.buy_price_max as city1_buy_price_max',
                 'mp1.buy_price_max_date as city1_buy_price_max_date',
@@ -40,17 +51,21 @@ class ComparisonsController extends Controller
             ->where('mp1.quality_id', '<>', 5) // quality masterpiece olmamalı
             ->get(); // Sonucu getirir
 
+        // Item name mappings'leri al
+        $itemNameMappings = $this->itemNameService->getItemNameMappings();
+
         // Şehirler arasındaki buy_price_max farklarını tespit etmek için
         $priceComparisons1 = [];
         foreach ($allPrices as $price) {
-            $itemDetails = getItemDetails($price->item_id);
+            $itemName = $itemNameMappings[$price->item_id] ?? 'Unknown'; // Item name mappings'leri kullanarak item_name al
             $profit = abs($price->city1_buy_price_max*0.96 - $price->city2_sell_price_min); // Profit hesaplaması
+
             $priceComparisons1[] = [
                 'item_id' => $price->item_id,
-                'item_name' => $itemDetails['itemName'],
-                'item_description' => $itemDetails['itemDescription'],
+                'item_name' => $itemName, // item_name ekle
                 'city1' => City::find($price->city1_id)->name,
                 'city1_quality' => $price->quality_name,
+                'enchant' => $price->enchant,
                 'city1_buy_price_max' => $price->city1_buy_price_max,
                 'city1_buy_price_max_date' => $price->city1_buy_price_max_date,
                 'city2' => City::find($price->city2_id)->name,
@@ -71,6 +86,7 @@ class ComparisonsController extends Controller
                 'mp1.item_id',
                 'mp1.city_id as city1_id',
                 'mp1.quality_id',
+                'mp1.enchant as enchant',
                 'qualities.name as quality_name',
                 'mp1.buy_price_max as city1_buy_price_max',
                 'mp1.buy_price_max_date as city1_buy_price_max_date',
@@ -92,18 +108,21 @@ class ComparisonsController extends Controller
             ->where('mp1.quality_id', '<>', 5) // quality masterpiece olmamalı
             ->get(); // Sonucu getirir
 
+        // Item name mappings'leri al
+        $itemNameMappings = $this->itemNameService->getItemNameMappings();
+
         // Şehirler arasındaki buy_price_max farklarını tespit etmek için
         $priceComparisons2 = [];
         foreach ($allPrices as $price) {
-            $itemDetails = getItemDetails($price->item_id);
-
+            $itemName = $itemNameMappings[$price->item_id] ?? 'Unknown'; // Item name mappings'leri kullanarak item_name al
             $profit = abs($price->city2_sell_price_min - $price->city1_buy_price_max); // Profit hesaplaması
+
             $priceComparisons2[] = [
                 'item_id' => $price->item_id,
-                'item_name' => $itemDetails['itemName'],
-                'item_description' => $itemDetails['itemDescription'],
+                'item_name' => $itemName, // item_name ekle
                 'city1' => City::find($price->city1_id)->name,
                 'city1_quality' => $price->quality_name,
+                'enchant' => $price->enchant,
                 'city1_buy_price_max' => $price->city1_buy_price_max,
                 'city1_buy_price_max_date' => $price->city1_buy_price_max_date,
                 'city2' => City::find($price->city2_id)->name,
@@ -125,6 +144,7 @@ class ComparisonsController extends Controller
                 'mp1.item_id',
                 'mp1.city_id as city1_id',
                 'mp1.quality_id',
+                'mp1.enchant as enchant',
                 'qualities.name as quality_name',
                 'mp1.buy_price_max as city1_buy_price_max',
                 'mp1.buy_price_max_date as city1_buy_price_max_date',
@@ -146,23 +166,27 @@ class ComparisonsController extends Controller
             ->where('mp1.quality_id', '<>', 5) // quality masterpiece olmamalı
             ->get(); // Sonucu getirir
 
+        // Item name mappings'leri al
+        $itemNameMappings = $this->itemNameService->getItemNameMappings();
+
         // Şehirler arasındaki buy_price_max farklarını tespit etmek için
         $priceComparisons3 = [];
         foreach ($allPrices as $price) {
-            $itemDetails = getItemDetails($price->item_id);
+            $itemName = $itemNameMappings[$price->item_id] ?? 'Unknown'; // Item name mappings'leri kullanarak item_name al
             $profit = abs($price->city2_buy_price_max*0.96 - $price->city1_buy_price_max); // Profit hesaplaması
+
             $priceComparisons3[] = [
                 'item_id' => $price->item_id,
-                'item_name' => $itemDetails['itemName'],
-                'item_description' => $itemDetails['itemDescription'],
+                'item_name' => $itemName,
                 'city1' => City::find($price->city1_id)->name,
                 'city1_quality' => $price->quality_name,
+                'enchant' => $price->enchant,
                 'city1_buy_price_max' => $price->city1_buy_price_max,
                 'city1_buy_price_max_date' => $price->city1_buy_price_max_date,
                 'city2' => City::find($price->city2_id)->name,
                 'city2_buy_price_max' => $price->city2_buy_price_max,
                 'city2_buy_price_max_date' => $price->city2_buy_price_max_date,
-                'profit' => $profit // Profit değeri eklendi
+                'profit' => $profit
             ];
         }
 
@@ -177,6 +201,7 @@ class ComparisonsController extends Controller
                 'mp1.item_id',
                 'mp1.city_id as city1_id',
                 'mp1.quality_id',
+                'mp1.enchant as enchant',
                 'qualities.name as quality_name',
                 'mp1.sell_price_min as city1_sell_price_min',
                 'mp1.sell_price_min_date as city1_sell_price_min_date',
@@ -198,17 +223,21 @@ class ComparisonsController extends Controller
             ->where('mp1.quality_id', '<>', 5) // quality masterpiece olmamalı
             ->get(); // Sonucu getirir
 
+        // Item name mappings'leri al
+        $itemNameMappings = $this->itemNameService->getItemNameMappings();
+
         // Şehirler arasındaki sell_price_min farklarını tespit etmek için
         $priceComparisons4 = [];
         foreach ($allPrices as $price) {
-            $itemDetails = getItemDetails($price->item_id);
+            $itemName = $itemNameMappings[$price->item_id] ?? 'Unknown'; // Item name mappings'leri kullanarak item_name al
             $profit = abs($price->city2_sell_price_min - $price->city1_sell_price_min); // Profit hesaplaması
+
             $priceComparisons4[] = [
                 'item_id' => $price->item_id,
-                'item_name' => $itemDetails['itemName'],
-                'item_description' => $itemDetails['itemDescription'],
+                'item_name' => $itemName, // item_name ekle
                 'city1' => City::find($price->city1_id)->name,
                 'city1_quality' => $price->quality_name,
+                'enchant' => $price->enchant,
                 'city1_sell_price_min' => $price->city1_sell_price_min,
                 'city1_sell_price_min_date' => $price->city1_sell_price_min_date,
                 'city2' => City::find($price->city2_id)->name,

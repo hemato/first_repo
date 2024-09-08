@@ -29,14 +29,7 @@
                                     {{ $comparison['item_name'] }}
                                 </a>
                             </td>
-                            <td>                            @php
-                                    // Determine the suffix value based on item_id
-                                    $suffix = 0; // Default value
-                                    if (strpos($comparison['item_id'], '@') !== false) {
-                                        $suffix = (int) substr($comparison['item_id'], -1);
-                                    }
-                                @endphp
-                                {{ $suffix }}</td>
+                            <td> {{ $comparison['enchant'] }}</td>
                             <td>{{ $comparison['city1_quality'] }}</td>
                             <td>{{ $comparison['city1'] }}</td>
                             <td>{{ number_format($comparison['city1_buy_price_max'], 2) }} $</td>
