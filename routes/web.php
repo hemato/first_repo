@@ -45,6 +45,8 @@ Route::get('/flips', [FlipController::class, 'index']);
 //api_link tablosu için belirli kategorilere ait linkler oluşturur
 Route::get('/process-items', [ProcessedItemsController::class, 'fetchProcessedItems']);
 
+
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

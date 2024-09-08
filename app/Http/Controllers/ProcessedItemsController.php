@@ -60,6 +60,9 @@ class ProcessedItemsController extends Controller
             }
         }
 
+        // `type` değeri `api` olan kayıtları temizle
+        DB::table('api_links')->where('type', 'api')->delete();
+
         // Her kategori için URL oluştur ve ekrana yazdır
         $generatedUrls = [];
         foreach ($categories as $category => $uniqueNames) {
@@ -87,6 +90,7 @@ class ProcessedItemsController extends Controller
                     // Veritabanına kaydet
                     DB::table('api_links')->insert([
                         'url' => $url,
+                        'type' => 'api', // Type'ı belirleyin
                         'created_at' => now(),
                         'updated_at' => now()
                     ]);
@@ -97,9 +101,6 @@ class ProcessedItemsController extends Controller
             }
         }
 
-        return response()->json([
-            'message' => 'URLs generated and saved to database successfully.',
-            'urls' => $generatedUrls
-        ]);
+        return redirect('/prices');
     }
 }

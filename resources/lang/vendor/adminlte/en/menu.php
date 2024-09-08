@@ -17,6 +17,7 @@ return [
     'warning' => 'Warning',
     'information' => 'Information',
     'prices' => 'Prices',
+    'process-items' => 'Link Oluştur',
     'flips' => 'Flips',
     'flips_update' => 'Update Flips',
     'opportunities' => 'Opportunities',

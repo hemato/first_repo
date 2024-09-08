@@ -321,12 +321,26 @@ return [
             'text' => 'prices',
             'url' => 'prices',
             'icon' => 'fas fa-solid fa-money-bill',
+            'submenu' => [
+                [
+                    'text' => 'prices',
+                    'url' => '/prices',
+                ],
+                [
+                    'text' => 'process-items',
+                    'url' => '/process-items',
+                ],
+            ]
         ],
         [
             'text' => 'flips',
             'url' => 'flips',
             'icon' => 'fas fa-solid fa-money-bill',
             'submenu' => [
+                [
+                    'text' => 'flips',
+                    'url' => '/flips',
+                ],
                 [
                     'text' => 'flips_update',
                     'url' => '/flips/update',
